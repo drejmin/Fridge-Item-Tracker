@@ -1,5 +1,5 @@
 """
-WSGI config for fridge_app project.
+WSGI config for cool_app project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
