@@ -1,31 +1,30 @@
-# import os
-# import uuid
-# import boto3
-# from django.contrib.auth import login
-# from django.contrib.auth.forms import UserCreationForm
-# from django.contrib.auth.decorators import login_required
-# from django.contrib.auth.mixins import LoginRequiredMixin
-# from django.shortcuts import render, redirect
+import os
+import uuid
+import boto3
+from django.contrib.auth import login
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render, redirect
 
 
-# # Create your views here.
-# def signup(request):
-#   error_message = ''
-#   if request.method == 'POST':
-#     form = UserCreationForm(request.POST)
-#     if form.is_valid():
-#       # Save the user to the db
-#       user = form.save()
-#       # Automatically log in the new user
-#       login(request, user)
-#       return redirect('index')
-#     else:
-#       error_message = 'Invalid sign up - try again'
-#   # A bad POST or a GET request, so render signup template
-#   form = UserCreationForm()
-#   context = {'form': form, 'error_message': error_message}
-#   return render(request, 'registration/signup.html', context)
+# Create your views here.
+def signup(request):
+  error_message = ''
+  if request.method == 'POST':
+    form = UserCreationForm(request.POST)
+    if form.is_valid():
+      user = form.save()
+      login(request, user)
+      return redirect('index')
+    else:
+      error_message = 'Invalid sign up - try again'
+  form = UserCreationForm()
+  context = {'form': form, 'error_message': error_message}
+  return render(request, 'registration/signup.html', context)
 
+def home(request):
+  return render(request, 'home.html')
 
 # def add_photo(request, item_id):
 #     # photo-file will be the "name" attribute on the <input type="file">
