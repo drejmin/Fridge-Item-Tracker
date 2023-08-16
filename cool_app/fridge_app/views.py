@@ -8,7 +8,7 @@ from django.views.generic import ListView, DetailView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
-from .models import Receipt, Reminder
+from .models import Perishable, Receipt, Reminder
 
 # Create your views here.
 def signup(request):
@@ -28,7 +28,34 @@ def signup(request):
 def home(request):
   return render(request, 'home.html')
 
+# Views for Perishables ----------------------------------------------------------
+
+class PerishableCreate(LoginRequiredMixin, CreateView):
+  model = Perishable
+  fields = ['name', 'category', 'store_name', 'price', 'expiration']
+  
+  def form_valid(self,form):
+    form.instance.user = self.request.user
+    return super().form_valid(form)
+
+class PerishableUpdate(LoginRequiredMixin, UpdateView):
+  model = Perishable
+  fields = ['name', 'category', 'store_name', 'price', 'expiration']
+  success_url = '/perishables'
+
+class PerishableDelete(LoginRequiredMixin, DeleteView):
+  model = Perishable
+  success_url = '/perishables'
+
+class PerishableList(ListView):
+  model = Perishable
+
+class PerishableDetail(DetailView):
+  model = Perishable
+  fields = ['name', 'category', 'store_name', 'price', 'expiration']
+  
 # Views for Receipt ----------------------------------------------------------
+
 @login_required
 def receipt_index(request):
   receipts = Receipt.objects.filter(user=request.user)
@@ -60,6 +87,7 @@ class ReceiptDelete(LoginRequiredMixin, DeleteView):
   success_url = '/receipts'
 
 # Views for Reminders ------------------------------------------------------------
+
 class ReminderList(LoginRequiredMixin, ListView):
   model = Reminder
 
@@ -83,3 +111,4 @@ class ReminderUpdate(LoginRequiredMixin, UpdateView):
 class ReminderDelete(LoginRequiredMixin, DeleteView):
   model = Reminder
   success_url = '/reminders'
+
