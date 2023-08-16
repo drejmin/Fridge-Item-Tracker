@@ -8,7 +8,7 @@ urlpatterns=[
   
     # URLs for Receipt
     path('receipt/', views.receipt_index, name='receipt_index'),
-    ath('receipt/<int:receipt_id>/', views.receipt_detail, name ='receipt_detail'),
+    path('receipt/<int:receipt_id>/', views.receipt_detail, name ='receipt_detail'),
     path('receipt/create/', views.ReceiptCreate.as_view(), name = 'receipt_create'),
     path('receipt/<int:pk>/update/', views.ReceiptUpdate.as_view(), name= 'receipt_update'),
     path('receipt/<int:pk>/delete/', views.ReceiptDelete.as_view(), name= 'receipt_delete'),
