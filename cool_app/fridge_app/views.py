@@ -84,7 +84,7 @@ class ReceiptUpdate(LoginRequiredMixin, UpdateView):
 
 class ReceiptDelete(LoginRequiredMixin, DeleteView):
   model = Receipt
-  success_url = '/receipts'
+  success_url = '/receipt'
 
 # Views for Reminders ------------------------------------------------------------
 

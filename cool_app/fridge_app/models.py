@@ -1,9 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.core.validators import MaxValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator
 from datetime import date
 from django.urls import reverse
-
+from django.forms import DateInput
 
 # Perishable Constants
 PERISHABLE_CATEGORIES = (
@@ -41,8 +41,14 @@ TIME_ZONES = (
 class Receipt(models.Model):
     store_name= models.CharField(max_length=30)
     purchase_date=models.DateField('Purchase Date')
-    receipt_total=models.FloatField('Total')
-    receipt_image=models.ImageField('Image')
+    receipt_total=models.DecimalField(
+        'Total',
+        default=0,
+        max_digits=8,
+        decimal_places=2,
+        validators=[MinValueValidator(0)],
+        )
+    receipt_image=models.ImageField('Image', blank = True)
     item_list = models.TextField(max_length=1000)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -54,7 +60,7 @@ class Receipt(models.Model):
         return f'{self.name}({self.id})'
     
     def get_absolute_url(self):
-        return reverse('detail', kwargs={'receipt_id': self.id})
+        return reverse('receipt_detail', kwargs={'receipt_id': self.id})
     
 
 
