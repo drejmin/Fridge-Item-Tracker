@@ -32,7 +32,7 @@ def home(request):
 @login_required
 def receipt_index(request):
   receipts = Receipt.objects.filter(user=request.user)
-  return render(request, 'receipt_index',{
+  return render(request, 'receipt/index.html',{
     'receipts': receipts
   })
 
