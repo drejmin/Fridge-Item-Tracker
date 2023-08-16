@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Perishable
+from .models import Perishable, Receipt, Reminder
 
-# Register your models here.
 admin.site.register(Perishable)
+admin.site.register(Reminder)
+admin.site.register(Receipt)
