@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator
 from datetime import date
 from django.urls import reverse
+from django.forms import DateInput
 
-# # Create your models here.
 # Reminder Constants
 REMINDER_TYPES = (
     ("D", "Day"),
@@ -45,8 +45,6 @@ class Receipt(models.Model):
     def get_absolute_url(self):
         return reverse('detail', kwargs={'receipt_id': self.id})
     
-
-
 class Reminder(models.Model):
     name = models.CharField(max_length=30)
     type = models.CharField(
