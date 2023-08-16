@@ -5,6 +5,28 @@ from datetime import date
 from django.urls import reverse
 
 # # Create your models here.
+# Reminder Constants
+REMINDER_TYPES = (
+    ("D", "Day"),
+    ("E", "Expiration"),
+    ("G", "Garbage"),
+)
+
+REMINDER_TIMES = (
+    ("M", "Morning"),
+    ("L", "Noon"),
+    ("A", "Afternoon"),
+    ("E", "Evening"),
+    ("N", "Night"),
+)
+
+TIME_ZONES = (
+    ("PT", "Pacific Time"),
+    ("MT", "Mountain Time"),
+    ("CT", "Central Time"),
+    ("ET", "Eastern Time"),
+)
+
 class Receipt(models.Model):
     store_name= models.CharField(max_length=30)
     purchase_date=models.DateField('Purchase Date')
@@ -22,6 +44,8 @@ class Receipt(models.Model):
     
     def get_absolute_url(self):
         return reverse('detail', kwargs={'receipt_id': self.id})
+    
+
 
 class Reminder(models.Model):
     name = models.CharField(max_length=30)
