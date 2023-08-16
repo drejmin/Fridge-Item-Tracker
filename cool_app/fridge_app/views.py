@@ -32,7 +32,7 @@ def home(request):
 
 class PerishableCreate(LoginRequiredMixin, CreateView):
   model = Perishable
-  fields = ['name', 'category', 'store_name', 'price', 'expiration']
+  fields = ['name','quantity', 'category', 'store_name', 'price', 'expiration']
   
   def form_valid(self,form):
     form.instance.user = self.request.user
@@ -40,7 +40,7 @@ class PerishableCreate(LoginRequiredMixin, CreateView):
 
 class PerishableUpdate(LoginRequiredMixin, UpdateView):
   model = Perishable
-  fields = ['name', 'category', 'store_name', 'price', 'expiration']
+  fields = ['name','quantity','category', 'store_name', 'price', 'expiration']
   success_url = '/perishables'
 
 class PerishableDelete(LoginRequiredMixin, DeleteView):
@@ -52,7 +52,7 @@ class PerishableList(ListView):
 
 class PerishableDetail(DetailView):
   model = Perishable
-  fields = ['name', 'category', 'store_name', 'price', 'expiration']
+  fields = ['name','quantity', 'category', 'store_name', 'price', 'expiration']
   
 # Views for Receipt ----------------------------------------------------------
 
@@ -106,7 +106,7 @@ class ReminderCreate(LoginRequiredMixin, CreateView):
 
 class ReminderUpdate(LoginRequiredMixin, UpdateView):
   model = Reminder
-  fields = ['type', 'date', 'remind_days_prio_by', 'remind_time', 'send_to_email', 'time_zone']
+  fields = ['name', 'type', 'date', 'remind_days_prio_by', 'remind_time', 'send_to_email', 'time_zone']
 
 class ReminderDelete(LoginRequiredMixin, DeleteView):
   model = Reminder

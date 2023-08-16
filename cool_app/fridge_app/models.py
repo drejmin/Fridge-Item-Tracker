@@ -103,13 +103,25 @@ class Reminder(models.Model):
 class Perishable(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
+    quantity=models.DecimalField(
+        default=1,
+        max_digits= 3,
+        decimal_places=0,
+        validators=[MinValueValidator(1)],
+    )
     store_name = models.CharField(max_length=50)
     category = models.CharField(
         max_length=2,
         choices=PERISHABLE_CATEGORIES, 
             default='P'
     )
-    price = models.FloatField('Item Price')
+    price = models.DecimalField(
+        'Total',
+        default=0,
+        max_digits=8,
+        decimal_places=2,
+        validators=[MinValueValidator(0)],
+        )
     expiration= models.DateField('Expiration Date')
 
     def get_absolute_url(self):
