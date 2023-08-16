@@ -61,26 +61,26 @@ This project is to help remind forgetful folks when their perishables are expiri
 - [x] Setup django boilerplate
 - [x] Setup django superadmins
 - [x] Setup django auth and users
-- [ ] Update models.py
-  - [ ] reminders
+- [x] Update models.py
+  - [x] reminders
   - [ ] perishables
-  - [ ] receipts
-- [ ] Update views.py
-  - [ ] reminders
-  - [ ] perishables
-  - [ ] receipts
-- [ ] Setup urls.py
-  - [ ] reminders
-  - [ ] perishables
-  - [ ] receipts
-- [ ] Register models to admin.py
-  - [ ] reminders
-  - [ ] perishables
-  - [ ] receipts
-- [ ] Add template views for:
-  - [ ] reminders
-  - [ ] perishables
-  - [ ] receipts
+  - [x] receipts
+- [x] Update views.py
+  - [x] reminders
+  - [x] perishables
+  - [x] receipts
+- [x] Setup urls.py
+  - [x] reminders
+  - [x] perishables
+  - [x] receipts
+- [x] Register models to admin.py
+  - [x] reminders
+  - [x] perishables
+  - [x] receipts
+- [x] Add template views for:
+  - [x] reminders
+  - [x] perishables
+  - [x] receipts
 - [ ] Connect to S3 to hold receipt images
 - [ ] Email Reminders
 
@@ -98,6 +98,7 @@ This project is to help remind forgetful folks when their perishables are expiri
   - Microsoft Azure Computer Vision API
   - Tesseract (Open Source)
   - ABBYY Cloud OCR SDK
+-Add dynamic refrigerator graphic to homepage
 
 ## Contributers
 
