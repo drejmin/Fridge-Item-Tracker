@@ -6,6 +6,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView
+from .models import Perishable
 
 
 # Create your views here.
@@ -25,6 +28,31 @@ def signup(request):
 
 def home(request):
   return render(request, 'home.html')
+
+class PerishableCreate(LoginRequiredMixin, CreateView):
+  model = Perishable
+  fields = ['name', 'category', 'store_name', 'price', 'expiration']
+
+  def form_valid(self,form):
+    form.instance.user = self.request.user
+    return super().form_valid(form)
+
+class PerishableUpdate(LoginRequiredMixin, UpdateView):
+  model = Perishable
+  fields = ['name', 'category', 'store_name', 'price', 'expiration']
+  success_url = '/perishables'
+
+class PerishableDelete(LoginRequiredMixin, DeleteView):
+  model = Perishable
+  success_url = '/perishables'
+
+class PerishableList(ListView):
+  model = Perishable
+
+class PerishableDetail(DetailView):
+  model = Perishable
+  fields = ['name', 'category', 'store_name', 'price', 'expiration']
+
 
 # def add_photo(request, item_id):
 #     # photo-file will be the "name" attribute on the <input type="file">
