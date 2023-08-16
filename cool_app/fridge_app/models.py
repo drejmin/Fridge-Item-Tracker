@@ -4,34 +4,12 @@ from django.core.validators import MaxValueValidator
 from datetime import date
 from django.urls import reverse
 
-# Reminder Constants
-REMINDER_TYPES = (
-    ("D", "Day"),
-    ("E", "Expiration"),
-    ("G", "Garbage"),
-)
-
-REMINDER_TIMES = (
-    ("M", "Morning"),
-    ("L", "Noon"),
-    ("A", "Afternoon"),
-    ("E", "Evening"),
-    ("N", "Night"),
-)
-
-TIME_ZONES = (
-    ("PT", "Pacific Time"),
-    ("MT", "Mountain Time"),
-    ("CT", "Central Time"),
-    ("ET", "Eastern Time"),
-)
-
 # # Create your models here.
 class Receipt(models.Model):
-    store_name = models.CharField(max_length=30)
-    purchase_date = models.DateField('Purchase Date')
-    receipt_total = models.FloatField('Total')
-    receipt_image = models.ImageField('Image')
+    store_name= models.CharField(max_length=30)
+    purchase_date=models.DateField('Purchase Date')
+    receipt_total=models.FloatField('Total')
+    receipt_image=models.ImageField('Image')
     item_list = models.TextField(max_length=1000)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
