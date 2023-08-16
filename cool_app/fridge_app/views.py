@@ -96,7 +96,7 @@ class ReminderDetail(LoginRequiredMixin, DetailView):
 
 class ReminderCreate(LoginRequiredMixin, CreateView):
   model = Reminder
-  fields = ['type', 'date', 'remind_days_prio_by', 'remind_time', 'send_to_email', 'time_zone']
+  fields = ['name', 'type', 'date', 'remind_days_prio_by', 'remind_time', 'send_to_email', 'time_zone']
   
   def form_valid(self, form):
     # Assign the logged in user (self.request.user)

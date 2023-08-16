@@ -65,7 +65,7 @@ class Receipt(models.Model):
 
 
 class Reminder(models.Model):
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=40)
     type = models.CharField(
             max_length = 1,
             choices = REMINDER_TYPES,
@@ -76,6 +76,7 @@ class Reminder(models.Model):
     remind_days_prio_by =  models.IntegerField(
                             default = 0,
                             validators=[
+                                MinValueValidator(0),
                                 MaxValueValidator(6),
                             ],
                         )
