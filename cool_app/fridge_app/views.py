@@ -106,7 +106,7 @@ class ReminderCreate(LoginRequiredMixin, CreateView):
 
 class ReminderUpdate(LoginRequiredMixin, UpdateView):
   model = Reminder
-  fields = ['type', 'date', 'remind_days_prio_by', 'remind_time', 'send_to_email', 'time_zone']
+  fields = ['name', 'type', 'date', 'remind_days_prio_by', 'remind_time', 'send_to_email', 'time_zone']
 
 class ReminderDelete(LoginRequiredMixin, DeleteView):
   model = Reminder
