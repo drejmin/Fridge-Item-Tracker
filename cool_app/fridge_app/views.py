@@ -6,6 +6,10 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView
+
+from .models import Reminder
 
 
 # Create your views here.
@@ -16,7 +20,7 @@ def signup(request):
     if form.is_valid():
       user = form.save()
       login(request, user)
-      return redirect('index')
+      return redirect('/')
     else:
       error_message = 'Invalid sign up - try again'
   form = UserCreationForm()
@@ -45,3 +49,28 @@ def home(request):
 #             print('An error occurred uploading file to S3')
 #             print(e)
 #     return redirect('detail', item_id=item_id)
+
+# Views for Reminders
+class ReminderList(LoginRequiredMixin, ListView):
+  model = Reminder
+
+class ReminderDetail(LoginRequiredMixin, DetailView):
+  model = Reminder
+
+class ReminderCreate(LoginRequiredMixin, CreateView):
+  model = Reminder
+  fields = ['type', 'date', 'remind_days_prio_by', 'remind_time', 'send_to_email', 'time_zone']
+  
+  def form_valid(self, form):
+    # Assign the logged in user (self.request.user)
+    form.instance.user = self.request.user  # form.instance is the cat
+    # Let the CreateView do its job as usual
+    return super().form_valid(form)
+
+class ReminderUpdate(LoginRequiredMixin, UpdateView):
+  model = Reminder
+  fields = ['type', 'date', 'remind_days_prio_by', 'remind_time', 'send_to_email', 'time_zone']
+
+class ReminderDelete(LoginRequiredMixin, DeleteView):
+  model = Reminder
+  success_url = '/reminders'
