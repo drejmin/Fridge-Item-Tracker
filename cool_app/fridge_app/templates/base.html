@@ -16,17 +16,16 @@
         <nav>
             <div class ="nav-wrapper">
                 <ul class = "right">
-                    
-                    {% if user.is_authenticated %}
                     <li><a href="{% url 'home' %}">Home</a></li>
+                    {% if user.is_authenticated %}
+                    <li><a href="{% url 'reminders_index' %}">View All Reminders</a></li>
+                    <li><a href="{% url 'reminders_create' %}">Create a Reminder</a></li>
                     <li><a href="{% url 'receipt_index' %}">Receipts</a></li>
                     <li><a href="{% url 'logout' %}">Log Out</a></li>
                     {% else %}
                       <li><a href="{% url 'login' %}">Log In</a></li>
                       <li><a href="{% url 'signup' %}">Sign Up</a></li>
                     {% endif %}
-                
-
                 </ul>
             </div>
         </nav>

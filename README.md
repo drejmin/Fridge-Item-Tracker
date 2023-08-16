@@ -65,7 +65,7 @@ This project is to help remind forgetful folks when their perishables are expiri
   - [ ] reminders
   - [ ] perishables
   - [ ] receipts
-- [ ] Update views.py (CRUD)
+- [ ] Update views.py
   - [ ] reminders
   - [ ] perishables
   - [ ] receipts
@@ -82,6 +82,7 @@ This project is to help remind forgetful folks when their perishables are expiri
   - [ ] perishables
   - [ ] receipts
 - [ ] Connect to S3 to hold receipt images
+- [ ] Email Reminders
 
 ## Stretch Goals
 
