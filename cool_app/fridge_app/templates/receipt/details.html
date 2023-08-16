@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Receipt List</h1>
+
+{% for receipt in receipts %}
+  <a href="{% url 'receipt_detail' receipt.id %}">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">{{ receipt.name }}</span>
+        <p>Date: {{ receipt.purchase_date }}</p>
+        <p>Store: {{ receipt.store_name }}</p>
+        <p>Image: {{ receipt.receipt_image }}</p>
+        <p>List of Items: {{ receipt.item_list }}</p>
+        <p>Money Spent: {{ receipt.receipt_total|linebreaks }}</p>
+      </div>
+      <div class="card-action">
+        <a href="{% url 'receipt_update' receipt.id %}">Edit</a>
+        <a href="{% url 'receipt_delete' receipt.id %}">Delete</a>
+      </div>
+    </div>
+  </a>
+{% endfor %}
+
+
+{% endblock %}

@@ -3,9 +3,12 @@ import uuid
 import boto3
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
+from .models import Receipt
 
 
 # Create your views here.
@@ -25,6 +28,37 @@ def signup(request):
 
 def home(request):
   return render(request, 'home.html')
+
+@login_required
+def receipt_index(request):
+  receipts = Receipt.objects.filter(user=request.user)
+  return render(request, 'receipt_index',{
+    'receipts': receipts
+  })
+
+@login_required
+def receipt_detail(request, receipt_id):
+  receipt = Receipt.objects.get(id=receipt_id)
+  return render(request, 'receipt/details.html',{
+    'receipt': receipt
+  })
+
+
+class ReceiptCreate(LoginRequiredMixin, CreateView):
+  model = Receipt
+  fields = ['store_name','purchase_date','receipt_total','receipt_image','item_list']
+
+  def form_valid(self,form):
+    form.instance.user = self.request.user
+    return super().form_valid(form)
+
+class ReceiptUpdate(LoginRequiredMixin, UpdateView):
+  model = Receipt
+  fields = ['store_name','purchase_date','receipt_total','receipt_image','item_list']
+
+class ReceiptDelete(LoginRequiredMixin, DeleteView):
+  model = Receipt
+  success_url = '/receipts'
 
 # def add_photo(request, item_id):
 #     # photo-file will be the "name" attribute on the <input type="file">
