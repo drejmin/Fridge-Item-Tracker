@@ -18,6 +18,24 @@
       </div>
     </div>
 
+    <h3>Perishables</h3>
+
+        {% for perishable in perishable_list %}
+        <a href="{% url 'perishables_detail' perishable.id %}">
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">{{ perishable.name }}</span>
+
+                </div>
+                <div class="card-action">
+                <form action="{% url 'perishables_create' receipt.id perishables.id %}" method="POST">
+                  {% csrf_token %}
+                  <button type="submit" class="btn">Add</button>
+                </form>
+                </div>
+            </div>
+          </a>
+          {% endfor %}
 
 
 
