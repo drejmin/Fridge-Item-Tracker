@@ -12,11 +12,6 @@ body {
 main {
   flex: 1 0 auto;
 }
-.primary-color, .primary-color.lighten-5 {
-  background-color: #faac04 !important;
-}main {
-  flex: 1 0 auto;
-}
 
 footer.page-footer {
   padding-top: 0;
@@ -39,4 +34,7 @@ main>.button:hover {
   background-color: teal; 
   color: rgb(39, 190, 190);
   box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+.primary-color, .primary-color.lighten-5 {
+  background-color: #faac04 !important;
 }
