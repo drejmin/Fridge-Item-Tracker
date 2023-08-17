@@ -103,7 +103,7 @@ class Reminder(models.Model):
 class Perishable(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
-    quantity=models.DecimalField(
+    quantity = models.DecimalField(
         default=1,
         max_digits= 3,
         decimal_places=0,
