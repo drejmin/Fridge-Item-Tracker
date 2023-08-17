@@ -8,11 +8,18 @@
         <span class="card-title">{{ receipt.name }}</span>
         <p>Date: {{ receipt.purchase_date }}</p>
         <p>Store: {{ receipt.store_name }}</p>
-        <p>Image: {{ receipt.receipt_image }}</p>
+        <p>Image: {{ receipt.receipt_image }}
+          {% for photo in receipt_image.photo_set.all %}
+      <img class="responsive-img card-panel" src="{{photo.url}}">
+    {% empty %}
+      <div class="card-panel teal-text center-align">No Photos Uploaded</div>
+    {% endfor %}
+        </p>
         <p>List of Items: {{ receipt.item_list }}</p>
         <p>Money Spent: {{ receipt.receipt_total|linebreaks }}</p>
       </div>
       <div class="card-action">
+
         <a href="{% url 'receipt_update' receipt.id %}">Edit</a>
         <a href="{% url 'receipt_delete' receipt.id %}">Delete</a>
       </div>

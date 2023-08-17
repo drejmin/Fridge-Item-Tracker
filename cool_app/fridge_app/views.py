@@ -8,7 +8,7 @@ from django.views.generic import ListView, DetailView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
-from .models import Perishable, Receipt, Reminder
+from .models import Perishable, Receipt, Reminder, Photo
 
 # Create your views here.
 def signup(request):
@@ -77,6 +77,7 @@ class ReceiptCreate(LoginRequiredMixin, CreateView):
   def form_valid(self,form):
     form.instance.user = self.request.user
     return super().form_valid(form)
+  
 
 class ReceiptUpdate(LoginRequiredMixin, UpdateView):
   model = Receipt
@@ -111,4 +112,27 @@ class ReminderUpdate(LoginRequiredMixin, UpdateView):
 class ReminderDelete(LoginRequiredMixin, DeleteView):
   model = Reminder
   success_url = '/reminders'
+
+#------photo upload for receipts-----
+@login_required
+def add_photo(request, receipt_id):
+    # photo-file maps to the "name" attr on the <input>
+    photo_file = request.FILES.get('photo-file', None)
+    if photo_file:
+      s3 = boto3.client('s3')
+      # Need a unique "key" (filename)
+      # It needs to keep the same file extension
+      # of the file that was uploaded (.png, .jpeg, etc.)
+      key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+      try:
+        bucket = os.environ['S3_BUCKET']
+        s3.upload_fileobj(photo_file, bucket, key)
+        url = f"{os.environ['S3_BASE_URL']}{bucket}/{key}"
+        Photo.objects.create(url=url, receipt_id=receipt_id)
+      except Exception as e:
+        print('An error occurred uploading file to S3')
+        print(e)
+    return redirect('detail', receipt_id=receipt_id)
+
+
 
