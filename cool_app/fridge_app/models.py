@@ -125,7 +125,7 @@ class Perishable(models.Model):
     expiration= models.DateField('Expiration Date')
 
     reminders = models.ManyToManyField(Reminder)
-    receipt = models.ForeignKey(Receipt)
+    receipt = models.ForeignKey(Receipt, on_delete=models.SET_NULL, null=True)
 
 
     def get_absolute_url(self):
