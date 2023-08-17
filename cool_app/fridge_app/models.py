@@ -124,6 +124,10 @@ class Perishable(models.Model):
         )
     expiration= models.DateField('Expiration Date')
 
+    reminders = models.ManyToManyField(Reminder)
+    receipt = models.ForeignKey(Receipt)
+
+
     def get_absolute_url(self):
         return reverse('perishables_detail', kwargs={'pk': self.id})
     
