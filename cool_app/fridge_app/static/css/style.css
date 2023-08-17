@@ -14,8 +14,11 @@ footer.page-footer {
 }
 .primary-color, .primary-color.lighten-5 {
   background-color: #faac04 !important;
+}main {
+  flex: 1 0 auto;
+  
 }
+
 .primary-color, .primary-color.lighten-5 {
   background-color: #faac04 !important;
 }
-
