@@ -19,7 +19,7 @@
     </div>
 
     <h3>Perishables</h3>
-
+      <hr>
         {% for perishable in perishable_list %}
         <a href="{% url 'perishables_detail' perishable.id %}">
             <div class="card">
@@ -36,7 +36,7 @@
             </div>
           </a>
           {% endfor %}
-
+      </hr>
 
 
 {% endblock %}
