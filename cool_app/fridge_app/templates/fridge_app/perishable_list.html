@@ -1,7 +1,17 @@
 {% extends 'base.html' %}
 {% block content %}
-
 <h1>Perishables List</h1>
+
+<div class="row">
+  <div class="col s2">
+    <div class="card">
+      <div><a class="btn-floating btn-large halfway-fab waves-effect waves-light blue" style="font-size: large;"
+          href="{% url 'perishables_create' %}">+ 🥦 </a></div>
+    </div>
+  </div>
+</div>
+
+
 
 {% for perishable in perishable_list %}
   <a href="{% url 'perishables_detail' perishable.id %}">
@@ -12,5 +22,12 @@
     </div>
   </a>
 {% endfor %}
-
+<div class="row">
+  <div class="col s2">
+    <div class="card">
+      <div><a class="btn-floating btn-large halfway-fab waves-effect waves-light blue" style="font-size: large;"
+          href="{% url 'perishables_create' %}">+ 🥦 </a></div>
+    </div>
+  </div>
+</div>
 {% endblock %}
