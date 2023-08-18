@@ -77,9 +77,6 @@ class Receipt(models.Model):
     def get_absolute_url(self):
         return reverse('receipt_detail', kwargs={'receipt_id': self.id})
     
-
-        def __str__(self):
-            return f"Photo for receipt_id: {self.receipt_id} @{self.url}"
     
 class Reminder(models.Model):
     name = models.CharField(max_length=40)
@@ -152,3 +149,7 @@ class Perishable(models.Model):
     
     def get_emoji(self):
         return PERISHABLE_CATEGORIES_EMOJIS[self.category]
+    
+    def get_emoji(self):
+        return PERISHABLE_CATEGORIES_EMOJIS[self.category]
+        return f'{self.name} ({self.id})'
