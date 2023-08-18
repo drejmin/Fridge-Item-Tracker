@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="{% static './css/style.css' %}">
     <script>
         // var options = {
         //         edge: 'left', // Choose the horizontal origin
@@ -29,7 +30,7 @@
 </head>
 <body>
     <header class="navbar-fixed">
-        <nav>
+        <nav class="primary-color">
             <div class ="nav-wrapper">
 
                 <a href="{% url 'home' %}" class="brand-logo"><img style="margin-left:15px" height="35px" src="{% static 'forgetmenot_flower.png' %}" alt="Forget Me Not Logo"> Forget Me Not <img height="35px" src="{% static 'forgetmenot_flower.png' %}" alt="Forget Me Not Logo"></a>
