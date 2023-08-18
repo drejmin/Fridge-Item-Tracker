@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from .models import Perishable, Receipt, Reminder
+from datetime import datetime
 
 # Create your views here.
 def signup(request):
@@ -96,17 +97,15 @@ class ReminderDetail(LoginRequiredMixin, DetailView):
 
 class ReminderCreate(LoginRequiredMixin, CreateView):
   model = Reminder
-  fields = ['name', 'type', 'date', 'remind_days_prio_by', 'remind_time', 'send_to_email', 'time_zone']
+  fields = ['name', 'description', 'date', 'time', 'send_to_email']
   
   def form_valid(self, form):
-    # Assign the logged in user (self.request.user)
-    form.instance.user = self.request.user  # form.instance is the cat
-    # Let the CreateView do its job as usual
+    form.instance.user = self.request.user
     return super().form_valid(form)
 
 class ReminderUpdate(LoginRequiredMixin, UpdateView):
   model = Reminder
-  fields = ['name', 'type', 'date', 'remind_days_prio_by', 'remind_time', 'send_to_email', 'time_zone']
+  fields = ['name', 'description', 'date', 'time', 'send_to_email']
 
 class ReminderDelete(LoginRequiredMixin, DeleteView):
   model = Reminder

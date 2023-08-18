@@ -1,9 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
-from datetime import date
 from django.urls import reverse
-from django.forms import DateInput
 
 # Perishable Constants
 PERISHABLE_CATEGORIES = (
@@ -26,26 +24,18 @@ PERISHABLE_CATEGORIES_EMOJIS = {
 
 
 # Reminder Constants
-REMINDER_TYPES = (
-    ("D", "Day"),
-    ("E", "Expiration"),
-    ("G", "Garbage"),
-)
+# REMINDER_TYPES = (
+#     ("D", "Day"),
+#     ("E", "Expiration"),
+#     ("G", "Garbage"),
+# )
 
-REMINDER_TIMES = (
-    ("M", "Morning"),
-    ("L", "Noon"),
-    ("A", "Afternoon"),
-    ("E", "Evening"),
-    ("N", "Night"),
-)
-
-TIME_ZONES = (
-    ("PT", "Pacific Time"),
-    ("MT", "Mountain Time"),
-    ("CT", "Central Time"),
-    ("ET", "Eastern Time"),
-)
+# TIME_ZONES = (
+#     ("PT", "Pacific Time"),
+#     ("MT", "Mountain Time"),
+#     ("CT", "Central Time"),
+#     ("ET", "Eastern Time"),
+# )
 
 class Receipt(models.Model):
     store_name= models.CharField(max_length=30)
@@ -75,31 +65,12 @@ class Receipt(models.Model):
 
 class Reminder(models.Model):
     name = models.CharField(max_length=40)
-    type = models.CharField(
-            max_length = 1,
-            choices = REMINDER_TYPES,
-            # TODO: meet with team to decide default reminder
-            default = 'D'
-        )
-    date = models.DateTimeField('Reminder Date')
-    remind_days_prio_by =  models.IntegerField(
-                            default = 0,
-                            validators=[
-                                MinValueValidator(0),
-                                MaxValueValidator(6),
-                            ],
-                        )
-    remind_time = models.CharField(
-                    max_length = 1,
-                    choices = REMINDER_TIMES,
-                    default = 'M'
-                    )
+    description = models.TextField(max_length=300, blank=True)
+    date = models.DateField()
+    time = models.TimeField(
+        default='06:00'
+    )
     send_to_email = models.EmailField(max_length = 70)
-    time_zone = models.CharField(
-                    max_length = 2,
-                    choices = TIME_ZONES,
-                    default = 'CT',
-                    )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
@@ -108,6 +79,17 @@ class Reminder(models.Model):
     def get_absolute_url(self):
         return reverse('reminders_detail', kwargs={'pk': self.id})
 
+    # type = models.CharField(
+    #         max_length = 1,
+    #         choices = REMINDER_TYPES,
+    #         # TODO: meet with team to decide default reminder
+    #         default = 'D'
+    #     )
+    # time_zone = models.CharField(
+    #                 max_length = 2,
+    #                 choices = TIME_ZONES,
+    #                 default = 'CT',
+    #                 )
 
 class Perishable(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
