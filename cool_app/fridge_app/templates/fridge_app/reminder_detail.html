@@ -8,10 +8,11 @@
     <div class="card">
       <div class="card-content">
         <span class="card-title">{{ reminder.name }}</span>
-        <p>Description: {{ reminder.get_description_display }}</p>
-        <p>Date: {{ reminder.date|date:"l, F d,  Y" }}</p>
-        <p>Time: {{ reminder.time }}</p>
-        <p>Send to this Email: {{ reminder.send_to_email }}</p>
+        <p>{{ reminder.date|date:"l, F d,  Y" }} at {{ reminder.time }}</p>
+        <p>Sending email to {{ reminder.send_to_email }}</p>
+        <br>
+        <p>Description:</p>
+        <p>{{ reminder.description }}</p>
       </div>
       <div class="card-action">
         <a href="{% url 'reminders_update' reminder.id %}">Edit</a>
