@@ -6,13 +6,22 @@ from django.urls import reverse
 
 # Perishable Constants
 PERISHABLE_CATEGORIES = (
-            ('B', 'Bakery'),
-            ('D', 'Dairy'),
-            ('E', 'Eggs'),
-            ('M', 'Meat and Seafood'),
-            ('P', 'Produce'),
-            ('O', 'Other'),
+    ("B", "Bakery 🍞"),
+    ("D", "Dairy 🥛"),
+    ("E", "Eggs 🐔"),
+    ("M", "Meat and Seafood 🍖"),
+    ("P", "Produce 🥦"),
+    ("O", "Other 🍕"),
 )
+
+PERISHABLE_CATEGORIES_EMOJIS = {
+    'B': '🍞',
+    'D': '🥛',
+    'E': '🐔',
+    'M': '🍖',
+    'P': '🥦',
+    'O': '🍕',
+}
 
 
 # Reminder Constants
@@ -119,9 +128,8 @@ class Perishable(models.Model):
     )
     store_name = models.CharField(max_length=50)
     category = models.CharField(
-        max_length=2,
-        choices=PERISHABLE_CATEGORIES, 
-            default='P'
+        max_length=1,
+        choices= PERISHABLE_CATEGORIES, 
     )
     price = models.DecimalField(
         'Total',
@@ -142,3 +150,7 @@ class Perishable(models.Model):
     def __str__(self):
         return f'{self.name} ({self.id})'
 
+    
+    def get_emoji(self):
+        return PERISHABLE_CATEGORIES_EMOJIS[self.category]
+        return f'{self.name} ({self.id})'
