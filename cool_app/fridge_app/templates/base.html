@@ -6,38 +6,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Cat Collector</title>
+    <title>Forget Me Not</title>
+    <link rel="stylesheet" href="{% static './css/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="{% static './css/style.css' %}">
+    <script>
+        // var options = {
+        //         edge: 'left', // Choose the horizontal origin
+        //         onOpenStart: function(sidenav) {
+        //             sidenav.M_Sidenav._overlay.remove();
+        //         }
+        //     }
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     var elems = document.querySelectorAll('.sidenav');
+        //     var instances = M.Sidenav.init(elems, options);
+        // });
+        $(document).ready(function(){
+            $('.sidenav').sidenav();
+        });
+    </script>
 </head>
 <body>
     <header class="navbar-fixed">
-        <nav>
+        <nav class="primary-color">
             <div class ="nav-wrapper">
-                <ul class = "right">
-                    
+
+                <a href="{% url 'home' %}" class="brand-logo"><img style="margin-left:15px" height="35px" src="{% static 'forgetmenot_flower.png' %}" alt="Forget Me Not Logo"> Forget Me Not <img height="35px" src="{% static 'forgetmenot_flower.png' %}" alt="Forget Me Not Logo"></a>
+                <a href="#" data-target="mobile-menu" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+
+                <ul class = "right hide-on-med-and-down">
+                    <!-- <li><a href="{% url 'home' %}">Home</a></li> -->
                     {% if user.is_authenticated %}
-                    <li><a href="{% url 'logout' %}">Log Out</a></li>
+                      <li><a href="{% url 'reminders_index' %}">View All Reminders</a></li>
+                      <li><a href="{% url 'reminders_create' %}">Create a Reminder</a></li>
+                      <li><a href="{% url 'receipt_index' %}">Receipts</a></li>
+                      <!-- <li><a href="{% url 'perishables_create' %}">Add a Perishable Item</a></li> -->
+                      <li><a href="{% url 'perishables_index' %}">View All Perishable Items</a></li>
+                      <li><a href="{% url 'logout' %}">Log Out</a></li>
                     {% else %}
                       <li><a href="{% url 'login' %}">Log In</a></li>
                       <li><a href="{% url 'signup' %}">Sign Up</a></li>
                     {% endif %}
-                
 
                 </ul>
             </div>
         </nav>
+
     </header>
     <main class="container">
+        <ul class="sidenav" id="mobile-menu">
+            <li><a href="{% url 'home' %}">Home</a></li>
+            {% if user.is_authenticated %}
+              <li><a href="{% url 'reminders_index' %}">View All Reminders</a></li>
+              <li><a href="{% url 'reminders_create' %}">Create a Reminder</a></li>
+              <li><a href="{% url 'receipt_index' %}">Receipts</a></li>
+              <li><a href="{% url 'perishables_create' %}">Add a Perishable Item</a></li>
+              <li><a href="{% url 'perishables_index' %}">View All Perishable Items</a></li>
+              <li><a href="{% url 'logout' %}">Log Out</a></li>
+            {% else %}
+              <li><a href="{% url 'login' %}">Log In</a></li>
+              <li><a href="{% url 'signup' %}">Sign Up</a></li>
+            {% endif %}
+    
+        </ul>
         {% block content %}
         {% endblock %}
     </main>
 </body>
 </html>
-
-
-
 
 
 
