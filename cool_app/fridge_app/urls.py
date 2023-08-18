@@ -18,6 +18,7 @@ urlpatterns=[
     path('receipt/create/', views.ReceiptCreate.as_view(), name = 'receipt_create'),
     path('receipt/<int:pk>/update/', views.ReceiptUpdate.as_view(), name= 'receipt_update'),
     path('receipt/<int:pk>/delete/', views.ReceiptDelete.as_view(), name= 'receipt_delete'),
+    path('receipt/<int:receipt_id>/add_receipt/', views.add_receipt, name='add_receipt'),
     # URLs for Reminders
     path('reminders/', views.ReminderList.as_view(), name='reminders_index'),
     path('reminders/<int:pk>/', views.ReminderDetail.as_view(), name='reminders_detail'),
