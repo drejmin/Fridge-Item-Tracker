@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Forget Me Not</title>
+    <link rel="stylesheet" href="{% static './css/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -29,7 +30,7 @@
 </head>
 <body>
     <header class="navbar-fixed">
-        <nav>
+        <nav class="primary-color">
             <div class ="nav-wrapper">
 
                 <a href="{% url 'home' %}" class="brand-logo"><img style="margin-left:15px" height="35px" src="{% static 'forgetmenot_flower.png' %}" alt="Forget Me Not Logo"> Forget Me Not <img height="35px" src="{% static 'forgetmenot_flower.png' %}" alt="Forget Me Not Logo"></a>
