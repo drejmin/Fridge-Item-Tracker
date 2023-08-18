@@ -2,26 +2,27 @@
 .primary-color.lighten-5 {
   background-color: #faac04 !important;
 }
+
 body {
   display: flex;
   min-height: 100vh;
   flex-direction: column;
 }
 
-footer.page-footer {
-  padding-top: 0;
-  text-align: right;
+main {
+  flex: 1 0 auto;
 }
 .primary-color, .primary-color.lighten-5 {
   background-color: #faac04 !important;
 }main {
   flex: 1 0 auto;
-  
 }
 
-.primary-color, .primary-color.lighten-5 {
-  background-color: #faac04 !important;
+footer.page-footer {
+  padding-top: 0;
+  text-align: right;
 }
+
 main>.button{
   background-color: teal;
   border: none;
