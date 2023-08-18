@@ -8,12 +8,18 @@
         <span class="card-title">{{ receipt.name }}</span>
         <p>Date: {{ receipt.purchase_date }}</p>
         <p>Store: {{ receipt.store_name }}</p>
-        <p>Image: {{ receipt.receipt_image }}
-          {% for photo in receipt_image.photo_set.all %}
-      <img class="responsive-img card-panel" src="{{photo.url}}">
+        <p>Image: 
+          {% for photo in receipt.photo_set.all %}
+      <img class="responsive-img card-panel" src="{{receipt.url}}">
     {% empty %}
       <div class="card-panel teal-text center-align">No Photos Uploaded</div>
     {% endfor %}
+      <form action="{% url 'add_receipt' receipt.id %}" enctype="multipart/form-data" method="POST" class="card-panel">
+        {% csrf_token %}
+        <input type="file" name="photo-file">
+        <br><br>
+        <button type="submit" class="btn">Upload Receipt</button>
+      </form>
         </p>
         <p>List of Items: {{ receipt.item_list }}</p>
         <p>Money Spent: {{ receipt.receipt_total|linebreaks }}</p>
@@ -28,33 +34,21 @@
     <h3>Perishables</h3>
 
         {% for perishable in perishable_list %}
-        <a href="{% url 'perishables_detail' perishable.id %}">
-            <div class="card">
-                <div class="card-content">
-                    <span class="card-title">{{ perishable.name }}</span>
+        <a href="{% url 'perishables_detail' perishables.id%}">
+          <div class="card">
+              <div class="card-content">
+                  <span class="card-title"> {{ perishable.name }} {{ perishable.get_emoji }}</span>
+              </div>
+          </div>
+        </a>
+      {% endfor %}
+      <div class="row">
+        <div class="col s2">
+          <div class="card">
+            <div><a class="btn-floating btn-large halfway-fab waves-effect waves-light blue" style="font-size: large;"
+                href="{% url 'perishables_create' %}">+ 🥦 </a></div>
+          </div>
+        </div>
+      </div>
+      {% endblock %}
 
-                </div>
-                <div class="card-action">
-                <form action="{% url 'perishables_create' receipt.id perishables.id %}" method="POST">
-                  {% csrf_token %}
-                  <button type="submit" class="btn">Add</button>
-                </form>
-                </div>
-            </div>
-          </a>
-          {% endfor %}
-
-                </div>
-                <div class="card-action">
-                <form action="{% url 'perishables_create' receipt.id perishables.id %}" method="POST">
-                  {% csrf_token %}
-                  <button type="submit" class="btn">Add</button>
-                </form>
-                </div>
-            </div>
-          </a>
-          {% endfor %}
-      </hr>
-
-
-{% endblock %}

@@ -58,21 +58,9 @@ class Receipt(models.Model):
         decimal_places=2,
         validators=[MinValueValidator(0)],
         )
-    # receipt_image=models.OneToOneField("Photo", blank=True, on_delete=models.CASCADE)
-    # receipt_image=models.OneToOneField("Photo", blank=True, on_delete=models.CASCADE)
     item_list = models.TextField(max_length=1000)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
-
-
-    def __str__(self):
-        return f"Photo for receipt_id: {self.receipt_id} @{self.url}"
-    
-
-
-    def __str__(self):
-        return f"Photo for receipt_id: {self.receipt_id} @{self.url}"
-    
 
     class Meta:
         ordering = ['-purchase_date']
@@ -85,12 +73,11 @@ class Receipt(models.Model):
     
 class Photo(models.Model):
         url = models.CharField(max_length=200)
-        receipt_image = models.OneToOneField(Receipt, on_delete=models.CASCADE, null=True, blank=True)
-class Photo(models.Model):
-        url = models.CharField(max_length=200)
-        receipt_image = models.OneToOneField(Receipt, on_delete=models.CASCADE, null=True, blank=True)
+        receipt = models.ForeignKey(Receipt, on_delete=models.CASCADE, null=True, blank=True)
 
-
+        def __str__(self):
+            return f"Photo for receipt_id: {self.receipt_id} @{self.url}"
+    
 class Reminder(models.Model):
     name = models.CharField(max_length=40)
     type = models.CharField(

@@ -115,7 +115,7 @@ class ReminderDelete(LoginRequiredMixin, DeleteView):
 
 #------photo upload for receipts-----
 @login_required
-def add_photo(request, receipt_id):
+def add_receipt(request, receipt_id):
     # photo-file maps to the "name" attr on the <input>
     photo_file = request.FILES.get('photo-file', None)
     if photo_file:

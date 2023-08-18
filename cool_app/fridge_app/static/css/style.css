@@ -4,7 +4,6 @@ body {
   flex-direction: column;
 }
 
-
 footer.page-footer {
   padding-top: 0;
   text-align: right;
@@ -12,3 +11,4 @@ footer.page-footer {
 .primary-color, .primary-color.lighten-5 {
   background-color: #faac04 !important;
 }
+

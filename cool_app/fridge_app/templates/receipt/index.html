@@ -3,7 +3,7 @@
 
 <h1>Receipt List</h1>
 
-{% for receipt in receipt_list %}
+{% for receipt in receipts %}
   <a href="{% url 'receipt_detail' receipt.id %}">
     <div class="card">
       <div class="card-content">
