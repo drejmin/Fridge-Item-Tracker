@@ -8,8 +8,8 @@
         <span class="card-title">{{ receipt.name }}</span>
         <p>Date: {{ receipt.purchase_date }}</p>
         <p>Store: {{ receipt.store_name }}</p>
-        <p>Image: 
-          {% for photo in receipt.photo_set.all %}
+        <p>Image: {{receipt.receipt_image}}
+          {% for photo in receipt_image.photo_set.all %}
       <img class="responsive-img card-panel" src="{{receipt.url}}">
     {% empty %}
       <div class="card-panel teal-text center-align">No Photos Uploaded</div>
@@ -50,3 +50,4 @@
           {% endfor %}
       </hr>
 
+{% endblock %}

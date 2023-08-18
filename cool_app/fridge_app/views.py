@@ -72,7 +72,7 @@ def receipt_detail(request, receipt_id):
 
 class ReceiptCreate(LoginRequiredMixin, CreateView):
   model = Receipt
-  fields = ['store_name','purchase_date','receipt_total','receipt_image','item_list']
+  fields = ['store_name','purchase_date','receipt_image','receipt_total','item_list']
 
   def form_valid(self,form):
     form.instance.user = self.request.user
@@ -81,7 +81,7 @@ class ReceiptCreate(LoginRequiredMixin, CreateView):
 
 class ReceiptUpdate(LoginRequiredMixin, UpdateView):
   model = Receipt
-  fields = ['store_name','purchase_date','receipt_total','receipt_image','item_list']
+  fields = ['store_name','purchase_date','receipt_image','receipt_total','item_list']
 
 class ReceiptDelete(LoginRequiredMixin, DeleteView):
   model = Receipt
@@ -116,23 +116,19 @@ class ReminderDelete(LoginRequiredMixin, DeleteView):
 #------photo upload for receipts-----
 @login_required
 def add_receipt(request, receipt_id):
-    # photo-file maps to the "name" attr on the <input>
-    photo_file = request.FILES.get('photo-file', None)
-    if photo_file:
+  receipt_image = request.FILES.get('photo-file', None)
+  if receipt_image:
       s3 = boto3.client('s3')
-      # Need a unique "key" (filename)
-      # It needs to keep the same file extension
-      # of the file that was uploaded (.png, .jpeg, etc.)
-      key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
-      try:
+      key = uuid.uuid4().hex[:6] + receipt_image.name[receipt_image.name.rfind('.'):]
+  try:
         bucket = os.environ['S3_BUCKET']
-        s3.upload_fileobj(photo_file, bucket, key)
+        s3.upload_fileobj(receipt_image, bucket, key)
         url = f"{os.environ['S3_BASE_URL']}{bucket}/{key}"
         Photo.objects.create(url=url, receipt_id=receipt_id)
-      except Exception as e:
+  except Exception as e:
         print('An error occurred uploading file to S3')
         print(e)
-    return redirect('detail', receipt_id=receipt_id)
+  return redirect('receipt_detail', receipt_id=receipt_id)
 
 
 
