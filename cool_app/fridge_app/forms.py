@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Perishable, Receipt
+from .models import Perishable, Receipt, Reminder
 
 class PerishableForm(ModelForm):
   class Meta:
@@ -10,4 +10,9 @@ class ReceiptForm(ModelForm):
     class Meta:
         model = Receipt
         fields = ['store_name','purchase_date','receipt_total','receipt_image','item_list']
+
+class ReminderForm(ModelForm):
+    class Meta:
+        model = Reminder
+        fields = ['name', 'description', 'date', 'time', 'send_to_email']
 
