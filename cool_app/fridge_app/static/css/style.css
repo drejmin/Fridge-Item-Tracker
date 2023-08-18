@@ -1,3 +1,6 @@
+.primary-color,
+.primary-color.lighten-5 {
+  background-color: #faac04 !important;
 body {
   display: flex;
   min-height: 100vh;

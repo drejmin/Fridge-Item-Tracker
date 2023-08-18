@@ -12,7 +12,22 @@ PERISHABLE_CATEGORIES = (
     ("M", "Meat and Seafood 🍖"),
     ("P", "Produce 🥦"),
     ("O", "Other 🍕"),
+    ("B", "Bakery 🍞"),
+    ("D", "Dairy 🥛"),
+    ("E", "Eggs 🐔"),
+    ("M", "Meat and Seafood 🍖"),
+    ("P", "Produce 🥦"),
+    ("O", "Other 🍕"),
 )
+
+PERISHABLE_CATEGORIES_EMOJIS = {
+    'B': '🍞',
+    'D': '🥛',
+    'E': '🐔',
+    'M': '🍖',
+    'P': '🥦',
+    'O': '🍕',
+}
 
 PERISHABLE_CATEGORIES_EMOJIS = {
     'B': '🍞',
@@ -145,8 +160,11 @@ class Perishable(models.Model):
         return reverse('perishables_detail', kwargs={'pk': self.id})
     
     def __str__(self):
-        return f'{self.name} ({self.id})'    
+        return f'{self.name} ({self.id})'        
 
     def get_emoji(self):
         return PERISHABLE_CATEGORIES_EMOJIS[self.category]
 
+
+    def get_emoji(self):
+        return PERISHABLE_CATEGORIES_EMOJIS[self.category]
