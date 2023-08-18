@@ -26,11 +26,18 @@
     autoClose: true
   });
 
-  const selectEl = document.getElementById('id_type');
-  M.FormSelect.init(selectEl);
-  const selectRTimeEl = document.getElementById('id_remind_time');
-  M.FormSelect.init(selectRTimeEl);
-  const selectTZEl = document.getElementById('id_time_zone');
-  M.FormSelect.init(selectTZEl);
+  const timeEl = document.getElementById('id_time');
+  M.Timepicker.init(timeEl, {
+    defaultTime: '06:00',
+    autoClose: true,
+    twelveHour: false
+  });
+
+  // const selectEl = document.getElementById('id_type');
+  // M.FormSelect.init(selectEl);
+  // const selectRTimeEl = document.getElementById('id_remind_time');
+  // M.FormSelect.init(selectRTimeEl);
+  // const selectTZEl = document.getElementById('id_time_zone');
+  // M.FormSelect.init(selectTZEl);
 </script>
 {% endblock %}
