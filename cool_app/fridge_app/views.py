@@ -11,6 +11,8 @@ from .forms import ReminderForm
 from django.core.mail import send_mail
 from django.http import HttpResponse
 import os
+import boto3
+import uuid
 
 # Create your views here.
 def send_email(request, reminder_id):
