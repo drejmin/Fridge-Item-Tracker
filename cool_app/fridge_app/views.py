@@ -123,7 +123,7 @@ def receipt_detail(request, receipt_id):
 
 class ReceiptCreate(LoginRequiredMixin, CreateView):
   model = Receipt
-  fields = ['store_name','purchase_date','receipt_total','item_list']
+  fields = ['store_name','purchase_date', 'url', 'receipt_total','item_list']
 
 
   def form_valid(self,form):
@@ -133,7 +133,7 @@ class ReceiptCreate(LoginRequiredMixin, CreateView):
 
 class ReceiptUpdate(LoginRequiredMixin, UpdateView):
   model = Receipt
-  fields = ['store_name','purchase_date','receipt_image','receipt_total','item_list']
+  fields = ['store_name','purchase_date','url','receipt_total','item_list']
 
 
 class ReceiptDelete(LoginRequiredMixin, DeleteView):

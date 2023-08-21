@@ -49,8 +49,6 @@ class Receipt(models.Model):
         max_digits=8,
         decimal_places=2,
         validators=[MinValueValidator(0)],)
-    # receipt_image = models.ImageField(upload_to='images',null=True, blank=True)
-    # receipt_image = models.ImageField('Photo', null=True, blank=True)
     item_list = models.TextField(max_length=1000)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
