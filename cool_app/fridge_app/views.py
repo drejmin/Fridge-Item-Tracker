@@ -123,7 +123,7 @@ def receipt_detail(request, receipt_id):
 
 class ReceiptCreate(LoginRequiredMixin, CreateView):
   model = Receipt
-  fields = ['store_name','purchase_date','receipt_total','item_list']
+  fields = ['store_name','purchase_date', 'url', 'receipt_total','item_list']
 
 
   def form_valid(self,form):
@@ -133,7 +133,7 @@ class ReceiptCreate(LoginRequiredMixin, CreateView):
 
 class ReceiptUpdate(LoginRequiredMixin, UpdateView):
   model = Receipt
-  fields = ['store_name','purchase_date','receipt_image','receipt_total','item_list']
+  fields = ['store_name','purchase_date','url','receipt_total','item_list']
 
 
 class ReceiptDelete(LoginRequiredMixin, DeleteView):
@@ -222,7 +222,10 @@ def add_receipt(request, receipt_id):
         bucket = os.environ['S3_BUCKET']
         s3.upload_fileobj(receipt_image, bucket, key)
         url = f"{os.environ['S3_BASE_URL']}{bucket}/{key}"
-        Receipt.objects.create(url=url, receipt_id=receipt_id)
+        receipt= Receipt.objects.get(id=receipt_id)
+        receipt.url = url
+        receipt.save()
+        # Receipt.objects.create(url=url, receipt_id=receipt_id)
   except Exception as e:
         print('An error occurred uploading file to S3')
         print(e)
