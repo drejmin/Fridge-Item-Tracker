@@ -29,7 +29,9 @@
   </div>
 </div>
 
-  <!-------------------------- ADD RECEIPT BUTTON  ------------------------------>
+
+<!----------------------------------------- ADD RECEIPT BUTTON ----------------------------->
+
 <div class="row">
   <div class="col s2">
     <div class="card">
@@ -37,6 +39,7 @@
          href="{% url 'receipt_create' %}">+ 🧾 </a></div>
         </div>
       </div>
+
 
 <!-------------------------- ADD REMINDER MODAL BUTTON  ------------------------------>
 
@@ -85,21 +88,22 @@
       <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
     </div>
 </div>  
-  <!-- End of Modal Structure -->
+  <!------------------------------- End of Modal Structure ------------------------>
 
 
 
 <script>
+
 document.addEventListener('DOMContentLoaded', function () {
   const modal = document.getElementById('myModal');
   const instance = M.Modal.init(modal);
 });
 
-document.addEventListener('DOMContentLoaded', function () {
-  const modal = document.getElementById('myModaltest');
-  const instance = M.Modal.init(modal);
-});
 
+document.addEventListener('DOMContentLoaded', function() {
+var elems = document.querySelectorAll('.modal');
+var instances = M.Modal.init(elems);
+});
 
 
 const dateEl = document.getElementById('id_date');

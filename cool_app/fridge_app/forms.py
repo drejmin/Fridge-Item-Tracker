@@ -19,3 +19,4 @@ class ReminderForm(ModelForm):
     class Meta:
         model = Reminder
         fields = ['name', 'description', 'date', 'time', 'send_to_email']
+
