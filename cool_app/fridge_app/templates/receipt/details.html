@@ -17,7 +17,7 @@
         {% csrf_token %}
         <input type="file" name="receipt-image">
         <br><br>
-        <button type="submit" class="btn">Upload Receipt</button>
+        <button type="submit" class="btn-large blue waves-effect" style="margin-bottom: auto;">Upload Receipt</button>
       </form>
         </p>
         <p>List of Items: {{ receipt.item_list }}</p>
@@ -30,7 +30,24 @@
       </div>
     </div>
 
-
+    <div class="row">
+      <div class="col s2">
+        <div class="card">
+        <div><a class="btn-floating btn-large halfway-fab waves-effect waves-light blue" style="margin-top:10vmin ; font-size: large;"
+             href="{% url 'perishables_create' %}">+🥦 </a></div>
+            </div>
+          </div>
+    
+    
+    <div class="row">
+      <div class="col s2">
+        <div class="card">
+        <div><a class="btn-floating btn-large halfway-fab waves-effect waves-light blue" style= "margin-top: 10vmin; font-size: large;"
+             href="{% url 'reminders_create' %}">+📝 </a></div>
+            </div>
+          </div>
+    <div class = 'row'>
+      <div class = 'col 2'>
         {% for perishable in perishable_list %}
         <a href="{% url 'perishables_detail' perishable.id %}">
             <div class="card">
@@ -47,6 +64,7 @@
             </div>
           </a>
           {% endfor %}
-      </hr>
+      </div>
+    </div>  
 
 {% endblock %}
