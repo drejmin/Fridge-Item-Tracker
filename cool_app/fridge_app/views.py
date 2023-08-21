@@ -222,7 +222,10 @@ def add_receipt(request, receipt_id):
         bucket = os.environ['S3_BUCKET']
         s3.upload_fileobj(receipt_image, bucket, key)
         url = f"{os.environ['S3_BASE_URL']}{bucket}/{key}"
-        Receipt.objects.create(url=url, receipt_id=receipt_id)
+        receipt= Receipt.objects.get(id=receipt_id)
+        receipt.url = url
+        receipt.save()
+        # Receipt.objects.create(url=url, receipt_id=receipt_id)
   except Exception as e:
         print('An error occurred uploading file to S3')
         print(e)

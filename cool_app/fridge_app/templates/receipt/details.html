@@ -8,11 +8,9 @@
         <span class="card-title">{{ receipt.name }}</span>
         <p>Date: {{ receipt.purchase_date }}</p>
         <p>Store: {{ receipt.store_name }}</p>
-        <p>Image: {% for receipt_image in receipt.receipt_set.all %}
-      <img class="responsive-img card-panel" src="{{receipt.url}}">
-    {% empty %}
-      <div class="card-panel teal-text center-align">No Photos Uploaded</div>
-    {% endfor %}
+        <p>Image: </p>
+        <img class="responsive-img card-panel" src="{{receipt.url}}">
+      
       <form action="{% url 'add_receipt' receipt.id %}" enctype="multipart/form-data" method="POST" class="card-panel">
         {% csrf_token %}
         <input type="file" name="receipt-image">
