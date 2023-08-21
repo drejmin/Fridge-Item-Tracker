@@ -30,14 +30,11 @@ urlpatterns = [
 
     # URLs for Reminders
     path('reminders/', views.ReminderList.as_view(), name='reminders_index'),
-    path('reminders/<int:pk>/', views.ReminderDetail.as_view(),
-         name='reminders_detail'),
-    path('reminders/create/', views.ReminderCreate.as_view(),
-         name='reminders_create'),
-    path('reminders/<int:pk>/update/',
-         views.ReminderUpdate.as_view(), name='reminders_update'),
-    path('reminders/<int:pk>/delete/',
-         views.ReminderDelete.as_view(), name='reminders_delete'),
-
-
+    path('reminders/<int:pk>/', views.ReminderDetail.as_view(), name='reminders_detail'),
+    path('reminders/create/', views.ReminderCreate.as_view(), name='reminders_create'),
+    path('reminders/<int:pk>/update/', views.ReminderUpdate.as_view(), name='reminders_update'),
+    path('reminders/<int:pk>/delete/', views.ReminderDelete.as_view(), name='reminders_delete'),
+    
+    # Send Email  
+    path('send_email/<int:reminder_id>', views.send_email, name='send_email'),
 ]

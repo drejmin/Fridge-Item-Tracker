@@ -1,6 +1,3 @@
-import os
-import uuid
-import boto3
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -11,9 +8,34 @@ from django.shortcuts import render, redirect
 from .models import Perishable, Receipt, Reminder
 from datetime import datetime
 from .forms import ReminderForm
-
+from django.core.mail import send_mail
+from django.http import HttpResponse
+import os
 
 # Create your views here.
+def send_email(request, reminder_id):
+    error_message = ''
+    reminder = Reminder.objects.get(id=reminder_id)
+    subject =  reminder.name + ' ' + 'Forget Me Not Reminder'
+    message =  reminder.description
+    from_email = 'forget.me.no.sei.620@gmail.com'
+    try:
+      send_mail(
+          subject,
+          message,
+          from_email,
+          [reminder.send_to_email],
+          fail_silently=False,
+          auth_user=os.environ['SES_USER'],
+          auth_password=os.environ['SES_PW']
+      )
+    except Exception as e:
+      if 'not verified' in e.__str__():
+        error_message = "Please send an email to <a href = \"mailto: forget.me.no.sei.620@gmail.com\">forget.me.no.sei.620@gmail.com</a> to be added to the list of verified emails.  Thank you!"
+      else:
+        error_message = e 
+    context = {'reminder': reminder, 'error_message': error_message}
+    return render(request, 'fridge_app/reminder_detail.html', context)
 
 
 def signup(request):
@@ -203,7 +225,3 @@ def add_receipt(request, receipt_id):
         print('An error occurred uploading file to S3')
         print(e)
   return redirect('receipt_detail', receipt_id=receipt_id)
-
-
-
-
