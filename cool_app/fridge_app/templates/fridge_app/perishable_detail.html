@@ -12,6 +12,8 @@
         <p>Purchased from: {{ perishable.store_name }}</p>
         <p>Price: ${{ perishable.price }}</p>
         <p>Expires: {{ perishable.expiration }}</p>
+        <p>Receipts: {{ perishable.receipt_id }}</p>
+
         <p>{{ reminder.description }}<p>
         {% for reminder in perishable.reminder_set.all %}
        
@@ -41,70 +43,18 @@
       </div>
 
 
-<!-------------------------- ADD REMINDER MODAL BUTTON  ------------------------------>
+<!----------------------------------------- ADD REMINDER BUTTON ----------------------------->
 
-  <!-- Modal Button -->
-<div class="col s2">
+<div class="row">
+  <div class="col s2">
     <div class="card">
-  <!-- Modal Trigger -->
-    <a class="btn-floating btn-large halfway-fab waves-effect waves-light btn modal-trigger blue" style="font-size: large;" href="#myModal">+ 📅</a>
-  </div>
-</div>
-
-  <!-- Modal Structure -->
-<div id="myModal" class="modal">
-  <div class="modal-content">
-      <h4>Add a Reminder</h4>
-          <!-- ModelForm goes here -->
-          <form action="{% url 'reminders_create' %}" method="POST">
-            <!-- <form  action="{% url 'reminders_create' %}" method="POST"> -->
-              {% csrf_token %}
-              <!-- {{ form.as_p }} -->
-                  <div class="input-field">
-                    <input type="text" name="name" placeholder="{{ perishable.name}}">
-                    <label for="name">Name:</label>
-                  </div>
-                  <div class="input-field">
-                    <input type="text" name="description" placeholder="description of reminder">
-                    <label for="field1">Description:</label>
-                  </div>
-                  <div class="input-field">
-                    <input type="date" name="date" placeholder="date of reminder">
-                    <label for="field1">Date:</label>
-                  </div>
-                  <div class="input-field">
-                    <input type="time" name="time" placeholder="time of reminder">
-                    <label for="field1">Time:</label>
-                  </div>
-                  <div class="input-field">
-                    <input type="email" name="send_to_email" placeholder="enter your email">
-                    <label for="field2">Send to email:</label>
-                  </div>
-                  <button type="submit" class="btn btn-primary">Add</button>
-              </form>
-         <!-- </div> -->
-    </div>
-    <div class="modal-footer">
-      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
-    </div>
-</div>  
-  <!------------------------------- End of Modal Structure ------------------------>
-
+    <div><a class="btn-floating btn-large halfway-fab waves-effect waves-light blue" style="font-size: large;"
+         href="{% url 'add_reminder' perishable.id %}">+ 📅 </a></div>
+        </div>
+      </div>
 
 
 <script>
-
-document.addEventListener('DOMContentLoaded', function () {
-  const modal = document.getElementById('myModal');
-  const instance = M.Modal.init(modal);
-});
-
-
-document.addEventListener('DOMContentLoaded', function() {
-var elems = document.querySelectorAll('.modal');
-var instances = M.Modal.init(elems);
-});
-
 
 const dateEl = document.getElementById('id_date');
 M.Datepicker.init(dateEl, {

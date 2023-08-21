@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+# from .views import ReminderModal
 
 urlpatterns = [
 
@@ -17,16 +18,17 @@ urlpatterns = [
          views.PerishableUpdate.as_view(), name='perishables_update'),
     path('perishables/<int:pk>/delete/',
          views.PerishableDelete.as_view(), name='perishables_delete'),
-    path('perishables/<int:pk>/add_reminder/',
-         views.add_reminder, name='add_reminder'),
 
     # URLs for Receipt
     path('receipt/', views.receipt_index, name='receipt_index'),
-    path('receipt/<int:receipt_id>/', views.receipt_detail, name ='receipt_detail'),
-    path('receipt/create/', views.ReceiptCreate.as_view(), name = 'receipt_create'),
-    path('receipt/<int:pk>/update/', views.ReceiptUpdate.as_view(), name= 'receipt_update'),
-    path('receipt/<int:pk>/delete/', views.ReceiptDelete.as_view(), name= 'receipt_delete'),
-    path('receipt/<int:receipt_id>/add_receipt/', views.add_receipt, name='add_receipt'),
+    path('receipt/<int:receipt_id>/', views.receipt_detail, name='receipt_detail'),
+    path('receipt/create/', views.ReceiptCreate.as_view(), name='receipt_create'),
+    path('receipt/<int:pk>/update/',
+         views.ReceiptUpdate.as_view(), name='receipt_update'),
+    path('receipt/<int:pk>/delete/',
+         views.ReceiptDelete.as_view(), name='receipt_delete'),
+    path('receipt/<int:receipt_id>/add_receipt/',
+         views.add_receipt, name='add_receipt'),
 
     # URLs for Reminders
     path('reminders/', views.ReminderList.as_view(), name='reminders_index'),
@@ -39,5 +41,8 @@ urlpatterns = [
     path('reminders/<int:pk>/delete/',
          views.ReminderDelete.as_view(), name='reminders_delete'),
 
+    # URLs for Add Reminders tp Perishable
+    path('perishables/<int:perishable_id>/add_reminder/',
+         views.add_reminder, name='add_reminder'),
 
 ]

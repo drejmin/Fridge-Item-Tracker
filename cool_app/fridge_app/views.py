@@ -11,6 +11,7 @@ from django.shortcuts import render, redirect
 from .models import Perishable, Receipt, Reminder, Photo
 from datetime import datetime
 from .forms import ReminderForm
+from django.views.generic.edit import FormView
 
 
 # Create your views here.
@@ -98,17 +99,19 @@ def receipt_detail(request, receipt_id):
 
 
 class ReceiptCreate(LoginRequiredMixin, CreateView):
-  model = Receipt
-  fields = ['store_name','purchase_date','receipt_image','receipt_total','item_list']
+    model = Receipt
+    fields = ['store_name', 'purchase_date',
+              'receipt_image', 'receipt_total', 'item_list']
 
-  def form_valid(self,form):
-    form.instance.user = self.request.user
-    return super().form_valid(form)
-  
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
 
 class ReceiptUpdate(LoginRequiredMixin, UpdateView):
-  model = Receipt
-  fields = ['store_name','purchase_date','receipt_image','receipt_total','item_list']
+    model = Receipt
+    fields = ['store_name', 'purchase_date',
+              'receipt_image', 'receipt_total', 'item_list']
 
 
 class ReceiptDelete(LoginRequiredMixin, DeleteView):
@@ -144,65 +147,28 @@ class ReminderDelete(LoginRequiredMixin, DeleteView):
     model = Reminder
     success_url = '/reminders'
 
-# Adding a reminder via modal ----------------------------------------------------------
-
-def add_reminder(request, pk):
-    if request.method == 'POST':
-        form = ReminderForm(request.POST)
-        try:
-            if form.is_valid():
-                form.save()
-                return redirect('/perishables/')  # Redirect to a success page
-        except Exception as e:
-
-            pass
-    else:
-        form = ReminderForm()
-
-    return redirect('perishables_detail', pk=pk)
-    # return render(request, 'fridge_app/perishable_detail.html/',
-    #               {'form': form})
+# Adding a reminder  ----------------------------------------------------------
 
 
-# def add_reminder(request, perishable_id):
-#     # creates a ModelForm instance using the data that was submitted in the form
-#     form = ReminderForm(request.POST)
-# # validate the form
-#     if form.is_valid():
-#         new_reminder = form.save(commit=False)
-#         new_reminder.perishable_id = perishable_id
-#         new_reminder.save()
-#         return redirect('/perishables_detail/', perishable_id=perishable_id)
+def add_reminder(request, perishable_id, reminder_id):
+    Perishable.objects.get(id=perishable_id).reminders.add(reminder_id)
+    return redirect('detail', perishable_id=perishable_id)
 
-# def add_reminder(request, perishable_id):
-#     if request.method == 'POST':
-#         form = ReminderForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('/perishables/')  # Redirect to a success page
-#     else:
-#         form = ReminderForm()
 
-#     # return render(request, 'perishable_detail.html', {'form': form})
-#     return render(request, '/perishable_detail.html/',  {'perishable_id': perishable_id, 'form': form})
-
-#------photo upload for receipts----------------------------------------------------------------------------------
+# ------photo upload for receipts----------------------------------------------------------------------------------
 @login_required
 def add_receipt(request, receipt_id):
-  receipt_image = request.FILES.get('photo-file', None)
-  if receipt_image:
-      s3 = boto3.client('s3')
-      key = uuid.uuid4().hex[:6] + receipt_image.name[receipt_image.name.rfind('.'):]
-  try:
+    receipt_image = request.FILES.get('photo-file', None)
+    if receipt_image:
+        s3 = boto3.client('s3')
+        key = uuid.uuid4().hex[:6] + \
+            receipt_image.name[receipt_image.name.rfind('.'):]
+    try:
         bucket = os.environ['S3_BUCKET']
         s3.upload_fileobj(receipt_image, bucket, key)
         url = f"{os.environ['S3_BASE_URL']}{bucket}/{key}"
         Photo.objects.create(url=url, receipt_id=receipt_id)
-  except Exception as e:
+    except Exception as e:
         print('An error occurred uploading file to S3')
         print(e)
-  return redirect('receipt_detail', receipt_id=receipt_id)
-
-
-
-
+    return redirect('receipt_detail', receipt_id=receipt_id)

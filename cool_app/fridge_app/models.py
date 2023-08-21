@@ -39,7 +39,6 @@ PERISHABLE_CATEGORIES_EMOJIS = {
 # )
 
 
-
 class Receipt(models.Model):
     store_name = models.CharField(max_length=30)
     purchase_date = models.DateField('Purchase Date')
@@ -50,11 +49,11 @@ class Receipt(models.Model):
         decimal_places=2,
         validators=[MinValueValidator(0)],)
     receipt_image = models.ImageField('Image', blank=True)
-    receipt_image = models.OneToOneField('Photo',on_delete=models.CASCADE, null=True, blank=True)
+    reciept_image = models.OneToOneField(
+        'Photo', on_delete=models.CASCADE, null=True, blank=True)
     item_list = models.TextField(max_length=1000)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
-
 
     class Meta:
         ordering = ['-purchase_date']
@@ -65,15 +64,14 @@ class Receipt(models.Model):
     def get_absolute_url(self):
         return reverse('receipt_detail', kwargs={'receipt_id': self.id})
 
-    
+
 class Photo(models.Model):
     url = models.CharField(max_length=200)
     receipt_image = models.ForeignKey(Receipt, on_delete=models.CASCADE)
 
-
-    def __str__ (self):
+    def __str__(self):
         return f"{self.receipt_id} @{self.url}"
-        
+
 
 class Reminder(models.Model):
     name = models.CharField(max_length=40)
@@ -90,8 +88,6 @@ class Reminder(models.Model):
 
     def get_absolute_url(self):
         return reverse('reminders_detail', kwargs={'pk': self.id})
-    
-
 
 
 class Perishable(models.Model):
@@ -124,9 +120,7 @@ class Perishable(models.Model):
         return reverse('perishables_detail', kwargs={'pk': self.id})
 
     def __str__(self):
-        return f'{self.name} ({self.id})'    
+        return f'{self.name} ({self.id})'
 
     def get_emoji(self):
         return PERISHABLE_CATEGORIES_EMOJIS[self.category]
-
-  
