@@ -12,6 +12,13 @@
         <p>Purchased from: {{ perishable.store_name }}</p>
         <p>Price: ${{ perishable.price }}</p>
         <p>Expires: {{ perishable.expiration }}</p>
+        <p>{{ reminder.description }}<p>
+        {% for reminder in perishable.reminder_set.all %}
+       
+        <p>Reminder: {{ perishable.get_reminder_display }}</p>
+        <p>{{reminder.date}}<p>
+      
+        {% endfor %}
 
       </div>
       <div class="card-action">
@@ -22,6 +29,9 @@
   </div>
 </div>
 
+
+<!----------------------------------------- ADD RECEIPT BUTTON ----------------------------->
+
 <div class="row">
   <div class="col s2">
     <div class="card">
@@ -30,60 +40,71 @@
         </div>
       </div>
 
-  <div class="col s2">
+
+<!-------------------------- ADD REMINDER MODAL BUTTON  ------------------------------>
+
+  <!-- Modal Button -->
+<div class="col s2">
     <div class="card">
   <!-- Modal Trigger -->
-<a class="btn-floating btn-large halfway-fab waves-effect waves-light btn modal-trigger blue" style="font-size: large;" href="#myModal">+ 📅</a>
-  
+    <a class="btn-floating btn-large halfway-fab waves-effect waves-light btn modal-trigger blue" style="font-size: large;" href="#myModal">+ 📅</a>
   </div>
-  </div>
+</div>
+
   <!-- Modal Structure -->
-  <div id="myModal" class="modal">
-    <div class="modal-content">
+<div id="myModal" class="modal">
+  <div class="modal-content">
       <h4>Add a Reminder</h4>
-      <!-- Your form goes here -->
-      <!-- <form method="POST" action=""> -->
-        <form method="post" action="{% url 'reminders_create' %}"> 
-        {% csrf_token %}
-        <!-- form fields -->
-            <table>
-              <!-- Render the inputs inside of <tr>s & <td>s -->
-              {{ form.as_table }}
-            </table>
-        <div class="input-field">
-          <input type="text" name="id_remind_time" placeholder="Date">
-          <label for="field1">Date of reminder:</label>
-        </div>
-        <div class="input-field">
-          <input type="text" name="field2" placeholder="Email">
-          <label for="field2">Send to email:</label>
-        </div>
-        <!-- other fields -->
-        <button type="submit" class="btn">Submit</button>
-      </form>
+          <!-- ModelForm goes here -->
+          <form action="{% url 'reminders_create' %}" method="POST">
+            <!-- <form  action="{% url 'reminders_create' %}" method="POST"> -->
+              {% csrf_token %}
+              <!-- {{ form.as_p }} -->
+                  <div class="input-field">
+                    <input type="text" name="name" placeholder="{{ perishable.name}}">
+                    <label for="name">Name:</label>
+                  </div>
+                  <div class="input-field">
+                    <input type="text" name="description" placeholder="description of reminder">
+                    <label for="field1">Description:</label>
+                  </div>
+                  <div class="input-field">
+                    <input type="date" name="date" placeholder="date of reminder">
+                    <label for="field1">Date:</label>
+                  </div>
+                  <div class="input-field">
+                    <input type="time" name="time" placeholder="time of reminder">
+                    <label for="field1">Time:</label>
+                  </div>
+                  <div class="input-field">
+                    <input type="email" name="send_to_email" placeholder="enter your email">
+                    <label for="field2">Send to email:</label>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Add</button>
+              </form>
+         <!-- </div> -->
     </div>
     <div class="modal-footer">
       <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
     </div>
-  </div> 
+</div>  
+  <!------------------------------- End of Modal Structure ------------------------>
 
 
-
-
-
-  <!-- <div class="col s2">
-    <div class="card">
-      <div><a class="btn-floating btn-large halfway-fab waves-effect waves-light blue" style="font-size: large;"
-          href="{% url 'reminders_create' %}">+ 📅 </a></div>
-    </div>
-  </div>
-</div> -->
 
 <script>
+
+document.addEventListener('DOMContentLoaded', function () {
+  const modal = document.getElementById('myModal');
+  const instance = M.Modal.init(modal);
+});
+
+
 document.addEventListener('DOMContentLoaded', function() {
 var elems = document.querySelectorAll('.modal');
 var instances = M.Modal.init(elems);
 });
+
 
 const dateEl = document.getElementById('id_date');
 M.Datepicker.init(dateEl, {
@@ -93,11 +114,12 @@ M.Datepicker.init(dateEl, {
   autoClose: true
 });
 
-const selectEl = document.getElementById('id_type');
-M.FormSelect.init(selectEl);
-const selectRTimeEl = document.getElementById('id_remind_time');
-M.FormSelect.init(selectRTimeEl);
-const selectTZEl = document.getElementById('id_time_zone');
-M.FormSelect.init(selectTZEl);
+const timeEl = document.getElementById('id_time');
+M.Timepicker.init(timeEl, {
+  defaultTime: '06:00',
+  autoClose: true,
+  twelveHour: false
+});
+
 </script>
 {% endblock %}
