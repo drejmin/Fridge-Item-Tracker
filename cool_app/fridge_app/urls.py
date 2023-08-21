@@ -24,5 +24,7 @@ urlpatterns=[
     path('reminders/create/', views.ReminderCreate.as_view(), name='reminders_create'),
     path('reminders/<int:pk>/update/', views.ReminderUpdate.as_view(), name='reminders_update'),
     path('reminders/<int:pk>/delete/', views.ReminderDelete.as_view(), name='reminders_delete'),
-  
+    # Send Email  
+    path('send_email/<int:reminder_id>', views.send_email, name='send_email'),
+
 ]
