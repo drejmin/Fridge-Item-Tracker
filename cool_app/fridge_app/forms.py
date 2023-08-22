@@ -5,7 +5,8 @@ from .models import Perishable, Receipt, Reminder
 class PerishableForm(ModelForm):
     class Meta:
         model = Perishable
-        fields = ['name', 'store_name', 'category', 'price', 'expiration']
+        fields = ['name', 'store_name', 'category',
+                  'price', 'expiration', 'receipt', 'reminders']
 
 
 class ReceiptForm(ModelForm):
@@ -19,4 +20,3 @@ class ReminderForm(ModelForm):
     class Meta:
         model = Reminder
         fields = ['name', 'description', 'date', 'time', 'send_to_email']
-
