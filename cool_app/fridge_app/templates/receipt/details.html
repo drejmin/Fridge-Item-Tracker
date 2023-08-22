@@ -8,17 +8,14 @@
         <span class="card-title">{{ receipt.name }}</span>
         <p>Date: {{ receipt.purchase_date }}</p>
         <p>Store: {{ receipt.store_name }}</p>
-        <p>Image: {{receipt.receipt_image}}
-          {% for photo in receipt_image.photo_set.all %}
-      <img class="responsive-img card-panel" src="{{receipt.url}}">
-    {% empty %}
-      <div class="card-panel teal-text center-align">No Photos Uploaded</div>
-    {% endfor %}
+        <p>Image: </p>
+        <img class="responsive-img card-panel" src="{{receipt.url}}">
+      
       <form action="{% url 'add_receipt' receipt.id %}" enctype="multipart/form-data" method="POST" class="card-panel">
         {% csrf_token %}
-        <input type="file" name="photo-file">
+        <input type="file" name="receipt-image">
         <br><br>
-        <button type="submit" class="btn">Upload Receipt</button>
+        <button type="submit" class="btn-large blue waves-effect" style="margin-bottom: auto;">Upload Receipt</button>
       </form>
         </p>
         <p>List of Items: {{ receipt.item_list }}</p>
@@ -31,7 +28,24 @@
       </div>
     </div>
 
-
+    <div class="row">
+      <div class="col s2">
+        <div class="card">
+        <div><a class="btn-floating btn-large halfway-fab waves-effect waves-light blue" style="margin-top:10vmin ; font-size: large;"
+             href="{% url 'perishables_create' %}">+🥦 </a></div>
+            </div>
+          </div>
+    
+    
+    <div class="row">
+      <div class="col s2">
+        <div class="card">
+        <div><a class="btn-floating btn-large halfway-fab waves-effect waves-light blue" style= "margin-top: 10vmin; font-size: large;"
+             href="{% url 'reminders_create' %}">+📝 </a></div>
+            </div>
+          </div>
+    <div class = 'row'>
+      <div class = 'col 2'>
         {% for perishable in perishable_list %}
         <a href="{% url 'perishables_detail' perishable.id %}">
             <div class="card">
@@ -48,6 +62,7 @@
             </div>
           </a>
           {% endfor %}
-      </hr>
+      </div>
+    </div>  
 
 {% endblock %}
