@@ -1,1 +1,1 @@
-web: gunicorn cool_app.wsgi
+web: gunicorn fridge_app.wsgi
