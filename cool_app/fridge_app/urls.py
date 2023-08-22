@@ -36,3 +36,4 @@ urlpatterns = [
     # Send Email  
     path('send_email/<int:reminder_id>', views.send_email, name='send_email'),
 
+]
