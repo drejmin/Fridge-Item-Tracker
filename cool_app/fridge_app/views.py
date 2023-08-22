@@ -8,11 +8,13 @@ from django.shortcuts import render, redirect
 from .models import Perishable, Receipt, Reminder
 from datetime import datetime
 from .forms import ReminderForm
+from django.views.generic.edit import FormView
 from django.core.mail import send_mail
 from django.http import HttpResponse
 import os
 import boto3
 import uuid
+
 
 # Create your views here.
 def send_email(request, reminder_id):
@@ -122,19 +124,16 @@ def receipt_detail(request, receipt_id):
 
 
 class ReceiptCreate(LoginRequiredMixin, CreateView):
-  model = Receipt
-  fields = ['store_name','purchase_date', 'url', 'receipt_total','item_list']
+    model = Receipt
+    fields = ['store_name', 'purchase_date', 'receipt_total', 'item_list']
 
-
-  def form_valid(self,form):
-    form.instance.user = self.request.user
-    return super().form_valid(form)
-  
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 class ReceiptUpdate(LoginRequiredMixin, UpdateView):
   model = Receipt
-  fields = ['store_name','purchase_date','url','receipt_total','item_list']
-
+  fields = ['store_name','purchase_date','receipt_total','item_list']
 
 class ReceiptDelete(LoginRequiredMixin, DeleteView):
     model = Receipt
@@ -169,49 +168,15 @@ class ReminderDelete(LoginRequiredMixin, DeleteView):
     model = Reminder
     success_url = '/reminders'
 
-# Adding a reminder via modal ----------------------------------------------------------
-
-def add_reminder(request, pk):
-    if request.method == 'POST':
-        form = ReminderForm(request.POST)
-        try:
-            if form.is_valid():
-                form.save()
-                return redirect('/perishables/')  # Redirect to a success page
-        except Exception as e:
-
-            pass
-    else:
-        form = ReminderForm()
-
-    return redirect('perishables_detail', pk=pk)
-    # return render(request, 'fridge_app/perishable_detail.html/',
-    #               {'form': form})
+# Adding a reminder  ----------------------------------------------------------
 
 
-# def add_reminder(request, perishable_id):
-#     # creates a ModelForm instance using the data that was submitted in the form
-#     form = ReminderForm(request.POST)
-# # validate the form
-#     if form.is_valid():
-#         new_reminder = form.save(commit=False)
-#         new_reminder.perishable_id = perishable_id
-#         new_reminder.save()
-#         return redirect('/perishables_detail/', perishable_id=perishable_id)
+def add_reminder(request, perishable_id, reminder_id):
+    Perishable.objects.get(id=perishable_id).reminders.add(reminder_id)
+    return redirect('detail', perishable_id=perishable_id)
 
-# def add_reminder(request, perishable_id):
-#     if request.method == 'POST':
-#         form = ReminderForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('/perishables/')  # Redirect to a success page
-#     else:
-#         form = ReminderForm()
 
-#     # return render(request, 'perishable_detail.html', {'form': form})
-#     return render(request, '/perishable_detail.html/',  {'perishable_id': perishable_id, 'form': form})
-
-#------photo upload for receipts----------------------------------------------------------------------------------
+# ------photo upload for receipts----------------------------------------------------------------------------------
 @login_required
 def add_receipt(request, receipt_id):
   receipt_image = request.FILES.get('receipt-image', None)
