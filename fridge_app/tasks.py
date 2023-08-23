@@ -4,7 +4,6 @@ import logging, os
 logger = logging.getLogger(__name__)
 
 def schedule_email(name, description, send_to_email):
-    logger.error('Details: ' + name + description + send_to_email )
     subject =  name + ' ' + 'Forget Me Not Reminder'
     message =  description
     from_email = 'forget.me.no.sei.620@gmail.com'
