@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <table width="600" cellpadding="0" cellspacing="0" align="center" style="border: 1px solid #cccccc;">
+            <tr>
+                <td bgcolor="#f2f2f2" style="padding: 20px; text-align: center;">
+                    <h1 style="font-family: Arial, sans-serif; color: #333333;">{{ reminder.name }}</h1>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding: 20px; font-family: Arial, sans-serif; font-size: 14px; line-height: 1.5; color: #333333;">
+
+                    <h2>Description:</h2>
+                    <p>{{ reminder.description }}</p>
+                    <br>
+
+                    <h2>Perishables:</h2>
+                    {% for perishable in reminder.perishable_set.all %}
+                    <p>{{ perishable.name }} {{ perishable.get_emoji }}</p>
+                    {% empty %}
+                    <p>No Perishables Yet!</p>
+                    {% endfor %}
+                    
+                </td>
+            </tr>
+            <tr>
+                <td bgcolor="#f2f2f2" style="padding: 20px; text-align: center;">
+                    <a href="{{ BASE_URL }}" style="font-family: Arial, sans-serif; color: #0066cc; text-decoration: none;">Visit our website</a>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>
