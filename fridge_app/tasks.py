@@ -3,8 +3,8 @@ import logging, os
 
 logger = logging.getLogger(__name__)
 
-def schedule_email(name, description, send_to_email):
-    subject =  name + ' ' + 'Forget Me Not Reminder'
+def schedule_email(name, description, html_message, send_to_email):
+    subject =  name + ' - ' + 'Forget Me Not Reminder'
     message =  description
     from_email = 'forget.me.no.sei.620@gmail.com'
     try:
@@ -15,7 +15,8 @@ def schedule_email(name, description, send_to_email):
             [send_to_email],
             fail_silently=False,
             auth_user=os.environ['SES_USER'],
-            auth_password=os.environ['SES_PW']
+            auth_password=os.environ['SES_PW'],
+            html_message=html_message
         )
     except Exception as e:
         if 'not verified' in e.__str__():

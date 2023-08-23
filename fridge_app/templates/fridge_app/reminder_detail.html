@@ -13,14 +13,12 @@
         <br>
         <p>Description:</p>
         <p>{{ reminder.description }}</p>
-        <br>
-        <p>Perishables:</p>
+        <p>Pershiables:</p>
         {% for perishable in reminder.perishable_set.all %}
-        <p>{{ perishable.name }} {{ perishable.get_emoji }}</p>
+        <p><a href="{% url 'perishables_detail' perishable.id %}">{{ perishable.name }}</a> {{ perishable.get_emoji }}</p>
         {% empty %}
         <p>No Perishables Yet!</p>
         {% endfor %}
-        </ul>
       </div>
       <div class="card-action">
         <a href="{% url 'reminders_update' reminder.id %}">Edit</a>
