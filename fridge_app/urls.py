@@ -38,6 +38,7 @@ urlpatterns = [
          name='reminders_create'),
     path('reminders/<int:pk>/update/',
          views.ReminderUpdate.as_view(), name='reminders_update'),
+    path('reminders/<int:reminder_id>/add_remove_perish', views.add_remove_perish, name='add_remove_perish'),
     path('reminders/<int:pk>/delete/',
          views.ReminderDelete.as_view(), name='reminders_delete'),
 
