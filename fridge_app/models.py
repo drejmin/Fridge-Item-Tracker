@@ -23,6 +23,7 @@ PERISHABLE_CATEGORIES_EMOJIS = {
     'O': '🍕',
 }
 
+
 class Receipt(models.Model):
     store_name = models.CharField(max_length=30)
     purchase_date = models.DateField('Purchase Date')
@@ -37,7 +38,6 @@ class Receipt(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     url = models.CharField(max_length=200)
 
-
     class Meta:
         ordering = ['-purchase_date']
 
@@ -46,6 +46,7 @@ class Receipt(models.Model):
 
     def get_absolute_url(self):
         return reverse('receipt_detail', kwargs={'receipt_id': self.id})
+
 
 class Reminder(models.Model):
     name = models.CharField(max_length=40)
@@ -80,7 +81,7 @@ class Perishable(models.Model):
         choices=PERISHABLE_CATEGORIES,
     )
     price = models.DecimalField(
-        'Total',
+        'Price',
         default=0,
         max_digits=8,
         decimal_places=2,
