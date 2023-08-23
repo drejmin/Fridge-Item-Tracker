@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from .models import Perishable, Receipt, Reminder
-from .forms import ReminderForm
+from .forms import ReminderForm, ReceiptForm
 from django.views.generic.edit import FormView
 from django.core.mail import send_mail
 from django.http import HttpResponse
@@ -111,14 +111,33 @@ def receipt_index(request):
 @login_required
 def receipt_detail(request, receipt_id):
     receipt = Receipt.objects.get(id=receipt_id)
+    
     return render(request, 'receipt/details.html', {
         'receipt': receipt
     })
-
+    
 
 class ReceiptCreate(LoginRequiredMixin, CreateView):
     model = Receipt
     fields = ['store_name', 'purchase_date', 'receipt_total', 'item_list']
+    
+    def get(self, request, perishable_id):
+        perishable = Perishable.objects.get(pk=perishable_id)
+        form = ReceiptForm()
+        context = {'form': form, 'perishable': perishable}
+        return render(request, self.template, context)
+
+    def post(self, request, perishable_id):
+        perishable = Perishable.objects.get(pk=perishable_id)
+        form = ReceiptForm(request.POST)
+        if form.is_valid():
+            receipt = form.save(commit=False)
+            receipt.user = request.user  # Associate the user
+            receipt.save()  # saves the receipt with the user association
+            perishable.receipts.add(receipt)
+            return redirect('perishables_detail', pk=perishable.pk)
+        context = {'form': form, 'perishable': perishable}
+        return render(request, self.template, context)
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -129,10 +148,61 @@ class ReceiptUpdate(LoginRequiredMixin, UpdateView):
     model = Receipt
     fields = ['store_name', 'purchase_date', 'receipt_total', 'item_list']
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Add ModelB instance to the context
+        perishables = Perishable.objects.all()
+        context['perishables'] = perishables
+
+
+        return context
+
 
 class ReceiptDelete(LoginRequiredMixin, DeleteView):
     model = Receipt
     success_url = '/receipt'
+    
+def add_remove_perishable(request, receipt_id):
+# get receipt
+    receipt= Receipt.objects.get(id=receipt_id)
+
+    # list to add
+    a_list = request.POST.getlist('perishables_list')
+    item_list = receipt.perishable_set.all()
+
+    # if list from multiselect is empty
+    if not a_list:
+        # remove all perishables
+        for p in item_list:
+            receipt.perishable_set.remove(p.id)
+    # if list from multiselect is NOT empty
+    else:
+        # if receipt perishables is empty
+        if not item_list:
+            # add everything from multiselect list
+            for p in a_list:
+                receipt.perishable_set.add(p)
+        # if receipt perishables is NOT empty
+        else:
+            # build list of items to keep in receipt perishables
+            r_keep_list = item_list.filter(id__in=a_list)
+
+            # add new items to receipt perishables
+            for p in a_list:
+                if p not in r_keep_list:
+                    receipt.perishable_set.add(p)
+                    
+            # build list of items to remove in receipt perishables
+            r_remove_list = item_list.exclude(id__in=a_list)
+
+            # remove items from receipt perishables
+            for p in r_remove_list:
+                receipt.perishable_set.remove(p.id)
+
+# redirect to receipt detail (same page as multiselect list)
+    return redirect('receipts_detail', pk=receipt_id)
+
 
 
 # Views for Reminders ------------------------------------------------------------

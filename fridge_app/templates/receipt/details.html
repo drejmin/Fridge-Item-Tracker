@@ -18,6 +18,12 @@
         <button type="submit" class="btn-large blue waves-effect" style="margin-bottom: auto;">Upload Receipt</button>
       </form>
         </p>
+        <p>Pershiables:</p>
+        {% for perishable in receipt.perishable_set.all %}
+        <p><a href="{% url 'perishables_detail' perishable.id %}">{{ perishable.name }}</a> {{ perishable.get_emoji }}</p>
+        {% empty %}
+        <p>No Perishables Yet!</p>
+        {% endfor %}
         <p>List of Items: {{ receipt.item_list }}</p>
         <p>Money Spent: {{ receipt.receipt_total|linebreaks }}</p>
       </div>
@@ -27,6 +33,22 @@
         <a href="{% url 'receipt_delete' receipt.id %}">Delete</a>
       </div>
     </div>
+
+    <div class="col s6 col-offset-3">
+      <div class="card">
+        <div class="card-content">
+          <span class="card-title">Choose Perishables</span>
+          <form action="{% url 'add_remove_perishable' object.id %}" method="post">
+            {% csrf_token %}
+            <div class="input-field col s12">
+              <select name="perishables_list" multiple>
+                <option value="" disabled>Choose your perishables</option>
+                {% for perishable in perishables %}
+                  <option value="{{ perishable.id }}" {% if perishable in object.perishable_set.all %}selected{% endif %}>{{ perishable.name }} {{ perishable.get_emoji }}</option>
+                {% endfor %}
+              </select>            
+            </div>
+            <button class="btn waves-effect waves-light" type="submit" name="action">Add/Remove
 
     <div class="row">
       <div class="col s2">
