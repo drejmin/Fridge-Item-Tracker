@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Add a Reminder for {{ perishable.name }}</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="hidden" name="perishable_id" value="{{ perishable.id }}">
+    <input type="submit" value="Submit!" class="btn">
+</form>
+<script>
+    const dateEl = document.getElementById('id_date');
+    M.Datepicker.init(dateEl, {
+        format: 'yyyy-mm-dd',
+        defaultDate: new Date(),
+        setDefaultDate: true,
+        autoClose: true
+    });
+    const timeEl = document.getElementById('id_time');
+    M.Timepicker.init(timeEl, {
+        defaultTime: '06:00',
+        autoClose: true,
+        twelveHour: false
+    });
+</script>
+{% endblock %}
