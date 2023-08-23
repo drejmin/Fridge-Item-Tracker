@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from .models import Perishable, Receipt, Reminder
-from .forms import ReminderForm
+from .forms import ReminderForm, ReceiptForm
 from django.views.generic.edit import FormView
 from django.core.mail import send_mail
 from django.http import HttpResponse
@@ -111,10 +111,13 @@ def receipt_index(request):
 @login_required
 def receipt_detail(request, receipt_id):
     receipt = Receipt.objects.get(id=receipt_id)
+    perishables = Perishable.objects.all()
+       
     return render(request, 'receipt/details.html', {
-        'receipt': receipt
+        'receipt': receipt,
+        'perishables':perishables
     })
-
+    
 
 class ReceiptCreate(LoginRequiredMixin, CreateView):
     model = Receipt
@@ -128,11 +131,65 @@ class ReceiptCreate(LoginRequiredMixin, CreateView):
 class ReceiptUpdate(LoginRequiredMixin, UpdateView):
     model = Receipt
     fields = ['store_name', 'purchase_date', 'receipt_total', 'item_list']
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Add ModelB instance to the context
+        perishables = Perishable.objects.all()
+        context['perishables'] = perishables
+
+
+        return context
 
 
 class ReceiptDelete(LoginRequiredMixin, DeleteView):
     model = Receipt
     success_url = '/receipt'
+    
+def add_remove_perishable(request, receipt_id):
+# get receipt
+    receipt= Receipt.objects.get(id=receipt_id)
+
+    # list to add
+    a_list = request.POST.getlist('perishables_list')
+    item_list = receipt.perishable_set.all()
+
+    # if list from multiselect is empty
+    if not a_list:
+        # remove all perishables
+        for p in item_list:
+            receipt.perishable_set.remove(p.id)
+    # if list from multiselect is NOT empty
+    else:
+        # if receipt perishables is empty
+        if not item_list:
+            # add everything from multiselect list
+            for p in a_list:
+                perish= Perishable.objects.get(id=p)
+                receipt.perishable_set.add(perish)
+        # if receipt perishables is NOT empty
+        else:
+            # build list of items to keep in receipt perishables
+            r_keep_list = item_list.filter(id__in=a_list)
+
+            # add new items to receipt perishables
+            for p in a_list:
+                if p not in r_keep_list:
+                    perish= Perishable.objects.get(id=p)
+                    receipt.perishable_set.add(perish)
+                    
+            # build list of items to remove in receipt perishables
+            r_remove_list = item_list.exclude(id__in=a_list)
+
+            # remove items from receipt perishables
+            for p in r_remove_list:
+                perish= Perishable.objects.get(id=p.id)
+                receipt.perishable_set.remove(perish)
+    receipt.save
+
+# redirect to receipt detail (same page as multiselect list)
+    return redirect('receipt_detail', receipt_id=receipt_id)
+
 
 
 # Views for Reminders ------------------------------------------------------------
