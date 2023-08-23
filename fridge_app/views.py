@@ -143,6 +143,16 @@ class ReminderList(LoginRequiredMixin, ListView):
 class ReminderDetail(LoginRequiredMixin, DetailView):
     model = Reminder
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Add ModelB instance to the context
+        perishables = Perishable.objects.all()
+        context['perishables'] = perishables
+
+
+        return context
+
 
 class ReminderCreate(LoginRequiredMixin, CreateView):
     model = Reminder
@@ -157,10 +167,61 @@ class ReminderUpdate(LoginRequiredMixin, UpdateView):
     model = Reminder
     fields = ['name', 'description', 'date', 'time', 'send_to_email']
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Add ModelB instance to the context
+        perishables = Perishable.objects.all()
+        context['perishables'] = perishables
+
+
+        return context
 
 class ReminderDelete(LoginRequiredMixin, DeleteView):
     model = Reminder
     success_url = '/reminders'
+
+def add_remove_perish(request, reminder_id):
+    # get reminder
+    reminder = Reminder.objects.get(id=reminder_id)
+    
+    # list to add
+    a_list = request.POST.getlist('perishables_list')
+    reminder_list = reminder.perishable_set.all()
+
+    # if list from multiselect is empty
+    if not a_list:
+        # remove all perishables
+        for p in reminder_list:
+            reminder.perishable_set.remove(p.id)
+    # if list from multiselect is NOT empty
+    else:
+        # if reminder perishables is empty
+        if not reminder_list:
+            # add everything from multiselect list
+            for p in a_list:
+                reminder.perishable_set.add(p)
+        # if reminder perishables is NOT empty
+        else:
+            # build list of items to keep in reminder perishables
+            r_keep_list = reminder_list.filter(id__in=a_list)
+
+            # add new items to reminder perishables
+            for p in a_list:
+                if p not in r_keep_list:
+                    reminder.perishable_set.add(p)
+                    
+            # build list of items to remove in reminder perishables
+            r_remove_list = reminder_list.exclude(id__in=a_list)
+
+            # remove items from reminder perishables
+            for p in r_remove_list:
+                reminder.perishable_set.remove(p.id)
+
+    # redirect to reminder detail (same page as multiselect list)
+    return redirect('reminders_detail', pk=reminder_id)
+
+
 
 # Adding a reminder to a perishable item ----------------------------------------------------------
 
@@ -203,7 +264,6 @@ def add_receipt(request, receipt_id):
         receipt = Receipt.objects.get(id=receipt_id)
         receipt.url = url
         receipt.save()
-        # Receipt.objects.create(url=url, receipt_id=receipt_id)
     except Exception as e:
         print('An error occurred uploading file to S3')
         print(e)
