@@ -81,8 +81,8 @@ This project is to help remind forgetful folks when their perishables are expiri
   - [x] reminders
   - [x] perishables
   - [x] receipts
-- [ ] Connect to S3 to hold receipt images
-- [ ] Email Reminders
+- [x] Connect to S3 to hold receipt images
+- [x] Email Reminders
 
 ## Stretch Goals
 
@@ -98,7 +98,7 @@ This project is to help remind forgetful folks when their perishables are expiri
   - Microsoft Azure Computer Vision API
   - Tesseract (Open Source)
   - ABBYY Cloud OCR SDK
--Add dynamic refrigerator graphic to homepage
+    -Add dynamic refrigerator graphic to homepage
 
 ## Contributers
 
