@@ -1,8 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-
 <h1>Perishable Item Details</h1>
-
 <div class="row">
   <div class="col s6 col-offset-3">
     <div class="card">
@@ -12,14 +10,12 @@
         <p>Purchased from: {{ perishable.store_name }}</p>
         <p>Price: ${{ perishable.price }}</p>
         <p>Expires: {{ perishable.expiration }}</p>
-        <p>Receipts: {{ perishable.receipt_id }}</p>
-
-        <p>{{ reminder.description }}<p>
-        {% for reminder in perishable.reminder_set.all %}
-       
-        <p>Reminder: {{ perishable.get_reminder_display }}</p>
-        <p>{{reminder.date}}<p>
-      
+        <p>Receipt: {{ perishable.receipt_id }}</p>
+        <p>Reminder(s):</p>
+        {% for reminder in perishable.reminders.all %}
+        <a href="{% url 'reminders_detail' reminder.id %}">
+          <p>{{ reminder.name }}</p>
+        </a>
         {% endfor %}
 
       </div>
@@ -31,45 +27,35 @@
   </div>
 </div>
 
-
 <!----------------------------------------- ADD RECEIPT BUTTON ----------------------------->
-
 <div class="row">
   <div class="col s2">
     <div class="card">
-    <div><a class="btn-floating btn-large halfway-fab waves-effect waves-light blue" style="font-size: large;"
-         href="{% url 'receipt_create' %}">+ 🧾 </a></div>
-        </div>
+      <div><a class="btn-floating btn-large halfway-fab waves-effect waves-light blue" style="font-size: large;" href="{% url 'receipt_create' %}">+ 🧾 </a></div>
+    </div>
+  </div>
+
+  <!----------------------------------------- ADD REMINDER BUTTON ----------------------------->
+  <div class="row">
+    <div class="col s2">
+      <div class="card">
+        <div><a class="btn-floating btn-large halfway-fab waves-effect waves-light blue" style="font-size: large;" href="{% url 'add_reminder' perishable.id %}">+ 📅 </a></div>
       </div>
+    </div>
 
-
-<!----------------------------------------- ADD REMINDER BUTTON ----------------------------->
-
-<div class="row">
-  <div class="col s2">
-    <div class="card">
-    <div><a class="btn-floating btn-large halfway-fab waves-effect waves-light blue" style="font-size: large;"
-         href="{% url 'reminders_create' %}">+ 📅 </a></div>
-        </div>
-      </div>
-
-
-<script>
-
-const dateEl = document.getElementById('id_date');
-M.Datepicker.init(dateEl, {
-  format: 'yyyy-mm-dd',
-  defaultDate: new Date(),
-  setDefaultDate: true,
-  autoClose: true
-});
-
-const timeEl = document.getElementById('id_time');
-M.Timepicker.init(timeEl, {
-  defaultTime: '06:00',
-  autoClose: true,
-  twelveHour: false
-});
-
-</script>
-{% endblock %}
+    <script>
+      const dateEl = document.getElementById('id_date');
+      M.Datepicker.init(dateEl, {
+        format: 'yyyy-mm-dd',
+        defaultDate: new Date(),
+        setDefaultDate: true,
+        autoClose: true
+      });
+      const timeEl = document.getElementById('id_time');
+      M.Timepicker.init(timeEl, {
+        defaultTime: '06:00',
+        autoClose: true,
+        twelveHour: false
+      });
+    </script>
+    {% endblock %}
