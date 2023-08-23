@@ -14,6 +14,7 @@
       <!-- Render the inputs inside of <tr>s & <td>s -->
       {{ form.as_table }}
     </table>
+    <a class="btn tooltipped" data-position="bottom" data-tooltip="Please send an email to <a>forget.me.no.sei.620@gmail.com</a> to be added to the list of verified emails.  Thank you!">Click to Copy email!</a>
     <input type="submit" value="Submit!" class="btn">
   </form>
 
@@ -33,5 +34,26 @@
     twelveHour: false
   });
 
+  $(document).ready(function(){
+    $('.tooltipped').tooltip({
+      exitDelay: 1000
+    });
+    $('.tooltipped').on('click', function(e){
+    e.preventDefault(); // Prevent the default link behavior
+
+    var textToCopy = "forget.me.no.sei.620@gmail.com";
+
+    // Create a temporary textarea element to hold the text
+    var $temp = $("<textarea>");
+    $("body").append($temp);
+    $temp.val(textToCopy).select();
+
+    // Execute the copy command
+    document.execCommand('copy');
+
+    // Remove the temporary textarea element
+    $temp.remove();
+  });
+  });
 </script>
 {% endblock %}

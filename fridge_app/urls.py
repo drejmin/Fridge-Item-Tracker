@@ -33,7 +33,5 @@ urlpatterns = [
     # URLs for Add Reminders tp Perishable
     path('perishables/<int:perishable_id>/add_reminder/', views.add_reminder, name='add_reminder'),
 
-    # Send Email  
-    path('send_email/<int:reminder_id>', views.send_email, name='send_email'),
 
 ]
