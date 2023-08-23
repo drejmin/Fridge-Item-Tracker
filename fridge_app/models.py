@@ -56,6 +56,7 @@ class Reminder(models.Model):
     )
     send_to_email = models.EmailField(max_length=70)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    task_id = models.CharField(max_length=200)
 
     class Meta:
         ordering = ['date']

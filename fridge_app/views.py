@@ -7,7 +7,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from .models import Perishable, Receipt, Reminder
-from datetime import datetime
 from .forms import ReminderForm
 from django.views.generic.edit import FormView
 from django.core.mail import send_mail
