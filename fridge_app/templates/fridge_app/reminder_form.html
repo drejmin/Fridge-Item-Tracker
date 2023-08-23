@@ -2,7 +2,7 @@
 
 {% block content %}
   {% if object %}
-    <h1>Edit <span class="teal-text">{{object.name}}</span></h1>
+    <h1>Edit <span class="blue-text">{{object.name}}</span></h1>
   {% else %}
     <h1>Add Reminder</h1>
   {% endif %}
@@ -15,7 +15,7 @@
       {{ form.as_table }}
     </table>
     <a class="btn tooltipped" data-position="bottom" data-tooltip="Please send an email to <a>forget.me.no.sei.620@gmail.com</a> to be added to the list of verified emails.  Thank you!">Click to Copy email!</a>
-    <input type="submit" value="Submit!" class="btn">
+    <input type="submit" value="Submit" class="btn">
   </form>
 
 <script>
