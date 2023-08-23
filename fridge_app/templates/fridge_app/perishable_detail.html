@@ -11,12 +11,6 @@
         <p>Price: ${{ perishable.price }}</p>
         <p>Expires: {{ perishable.expiration }}</p>
         <p>Receipt: {{ perishable.receipt_id }}</p>
-        <p>Reminder(s):</p>
-        {% for reminder in perishable.reminders.all %}
-        <a href="{% url 'reminders_detail' reminder.id %}">
-          <p>{{ reminder.name }}</p>
-        </a>
-        {% endfor %}
 
       </div>
       <div class="card-action">
@@ -25,8 +19,29 @@
       </div>
     </div>
   </div>
-</div>
 
+
+<!----------------------------------------- REMINDER LIST ----------------------------->
+
+
+<div class="col s6 col-offset-3">
+    <div class="card">
+      <div class="card-content">
+
+        <p>Reminder(s):</p>
+        {% for reminder in perishable.reminders.all %}
+        <a href="{% url 'reminders_detail' reminder.id %}">
+          <br>
+          <p>{{ reminder.name }}</p>
+        </a>
+        {% endfor %}
+    
+      </div>
+
+    </div>
+    </div>
+    </div>
+    
 <!----------------------------------------- ADD RECEIPT BUTTON ----------------------------->
 <div class="row">
   <div class="col s2">

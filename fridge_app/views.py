@@ -14,6 +14,7 @@ from django.http import HttpResponse
 import os
 import boto3
 import uuid
+from django.urls import reverse, reverse_lazy
 
 
 # Create your views here.
@@ -268,3 +269,88 @@ def add_receipt(request, receipt_id):
         print('An error occurred uploading file to S3')
         print(e)
     return redirect('receipt_detail', receipt_id=receipt_id)
+
+# perishables list in todo list style
+
+class PerishablesListView(ListView):
+    model = Perishable
+    name = "perishable_list/index.html"
+
+class PerishableItemListView(ListView):
+    model = Perishable
+    name = "perishable_list/index.html"
+
+    def get_queryset(self):
+        return Perishable.objects.filter(perishable_id=self.kwargs["list_id"])
+
+    def get_context_data(self):
+        context = super().get_context_data()
+        context["perishable_list"] = Perishable.objects.get(id=self.kwargs["list_id"])
+        return context
+
+class PerishableListCreate(CreateView):
+    model = Perishable
+    fields = ["name"]
+
+    def get_context_data(self):
+        context = super(PerishableListCreate, self).get_context_data()
+        context["name"] = "Add a new Item"
+        return context
+
+class PerishableItemCreate(CreateView):
+    model = Perishable
+    fields = [
+        "perishable_list",
+        "name",
+        "quantity",
+        "category",
+    ]
+
+    def get_initial(self):
+        initial_data = super(PerishableItemCreate, self).get_initial()
+        perishable_list = Perishable.objects.get(id=self.kwargs["list_id"])
+        initial_data["perishable_list"] = perishable_list
+        return initial_data
+
+    def get_context_data(self):
+        context = super(PerishableItemCreate, self).get_context_data()
+        perishable_list = Perishable.objects.get(id=self.kwargs["list_id"])
+        context["perishable_list"] = perishable_list
+        context["title"] = "Create a new item"
+        return context
+
+    def get_success_url(self):
+        return reverse("list", args=[self.object.perishable_list_id])
+
+class PerishableItemUpdate(UpdateView):
+    model = Perishable
+    fields = [
+        "perishable_list",
+        "name",
+        "quantity",
+        "category",
+    ]
+
+    def get_context_data(self):
+        context = super(PerishableItemUpdate, self).get_context_data()
+        context["perishable_list"] = self.object.perishable_list
+        context["name"] = "Edit item"
+        return context
+
+    def get_success_url(self):
+        return reverse("list", args=[self.object.perishable_list_id])
+    
+class PerishableListDelete(DeleteView):
+    model = Perishable
+    success_url = reverse_lazy("index")
+
+class PerishableItemDelete(DeleteView):
+    model = Perishable
+
+    def get_success_url(self):
+        return reverse_lazy("list", args=[self.kwargs["list_id"]])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["perishable_list"] = self.object.perishable_list
+        return context

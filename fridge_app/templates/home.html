@@ -4,7 +4,18 @@
 
 {% load static %}
 
-<h3></h3>
-<img src="{% static 'open.PNG' %}" alt="fridge_open">
+<div class="card" id="intro">
+<h5>Never forget your expensive grocery items again using this perishable item tracker with built in email reminders!</h5>
+</div>
+<div class="row">
+    <div class="column">
+<img src="{% static 'close.png' %}"  alt="fridge_open" id="fridgeimage">
+</div>
+<div class="column">
+<img src="{% static 'open.png' %}" alt="fridge_open" id="fridgeimage">
+</div>
+</div>
+<h2>Forget Me Not™</h2>
+<h5>created by Repo Depot™ </h5>
 
 {% endblock %}
