@@ -1,7 +1,7 @@
 
 .primary-color,
 .primary-color.lighten-5 {
-  background-color: #faac04 !important;
+  background-color: #e3b200 !important;
 }
 
 
@@ -77,3 +77,32 @@ main>.button:hover {
 #intro {
   text-align: center;
 }
+
+.datepicker-date-display {
+  /* Change input field background color */
+  background-color: rgb(111, 175, 235);
+  /* Change input text color */
+  color: #333;
+}
+
+td.is-today.is-selected {
+  /* Change input field background color */
+  background-color: rgb(111, 175, 235);
+  /* Change input text color */
+  color: #333;
+}
+
+.timepicker-digital-display {
+  /* Change input field background color */
+  background-color: rgb(111, 175, 235);
+  /* Change input text color */
+  color: #333;
+}
+
+/* div.timepicker-tick {
+  background-color: rgb(111, 175, 235);
+  color: #333;
+} */
+
+
+
