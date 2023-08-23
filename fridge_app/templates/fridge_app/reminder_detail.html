@@ -13,7 +13,7 @@
         <br>
         <p>Description:</p>
         <p>{{ reminder.description }}</p>
-        <p>Pershiables:</p>
+        <p>Perishables:</p>
         {% for perishable in reminder.perishable_set.all %}
         <p><a href="{% url 'perishables_detail' perishable.id %}">{{ perishable.name }}</a> {{ perishable.get_emoji }}</p>
         {% empty %}
