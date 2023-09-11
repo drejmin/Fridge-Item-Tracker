@@ -29,7 +29,7 @@
       <div class="card-content">
 
         <p>Reminder(s):</p>
-        {% for reminder in perishable.reminders.all %}
+        {% for reminder in perishables.reminders.all %}
         <a href="{% url 'reminders_detail' reminder.id %}">
           <br>
           <p>{{ reminder.name }}</p>
