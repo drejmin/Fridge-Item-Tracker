@@ -3,7 +3,7 @@
 
 <h1>Reminder List</h1>
 
-{% for reminder in reminder_list %}
+{% for reminder in reminders %}
   <div class="card">
     <a href="{% url 'reminders_detail' reminder.id %}">
       <div class="card-content">
