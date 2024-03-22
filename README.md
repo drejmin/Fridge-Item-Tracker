@@ -105,3 +105,4 @@ This project is to help remind forgetful folks when their perishables are expiri
 - Deandre (https://github.com/drejmin)
 - Amanda (https://github.com/amandaputney)
 - Paul (https://github.com/LeepDev)
+# deandreminor
